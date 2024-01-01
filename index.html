@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="loadPokemon()">
+
+    <header>
+        <div>PokeDex</div>
+        <div>How to Show: <select id="showLimit" onchange="loadLimit()">
+                <option value="20">20</option>
+                <option value="40">40</option>
+                <option value="60">60</option>
+                <option value="80">80</option>
+                <option value="100">100</option>
+            </select></div>
+    </header>
+
+    <div id="content"></div>
+    <footer class=""><button onclick="loadNext()" id="loadNext"></button></footer>
+</body>
+
+</html>

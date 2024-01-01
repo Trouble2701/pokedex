@@ -1,7 +1,11 @@
 let url = 'https://pokeapi.co/api/v2/pokemon/';
+let last = 1;
+let start = 0;
 let next = 20;
 let offset = `?offset=0&limit=20`;
 let names = [];
+let searchNames = [];
+let searchId = [];
 let id = [];
 let currentPokemon;
 
@@ -15,15 +19,8 @@ function loadLimit() {
     loadPokemon();
 }
 
-function loadNext(){
-    let loadLimit = +document.getElementById('showLimit').value;
-    offset = `?offset=${next}&limit=${loadLimit}`;
-    next = next + loadLimit;
-    loadPokemon();
-}
-
 async function loadPokemon() {
-    document.getElementById('content').innerHTML = '';
+/*    document.getElementById('content').innerHTML = '';*/
     document.getElementById('loadNext').innerHTML = ``;
     let loadLimit = +document.getElementById('showLimit').value;
     document.getElementById('loadNext').innerHTML = `Load Next ${loadLimit} Pokemon`;
@@ -33,27 +30,54 @@ async function loadPokemon() {
     /*console.log(allPokemon);*/
     for (let i = 0; i < allPokemon['results'].length; i++) {
         let results = allPokemon['results'][i];
-        for (let j = 0; j < results['name'].length; j++) {
-            let name = results['name'];
-            if (names.indexOf(name) === -1) {
-                names.push(name);
-            }
+        let name = results['name'];
+        if (names.indexOf(name) === -1) {
+            names.push(name);
         }
     }
     loadNames();
+    loadSearch();
+}
+
+async function loadSearch() {
+    searchNames = [];
+    searchId = [];
+    let response = await fetch(url + '?offset=0&limit=10000');
+    let searchPokemon = await response.json();
+    for (let i = 0; i < searchPokemon['results'].length; i++) {
+        let name = searchPokemon['results'][i]['name'];
+        if (searchNames.indexOf(name) == -1) {
+            searchNames.push(name);
+        }
+        let id = searchPokemon['results'][i]['url'];
+        let splitId = id.split('/');
+        let idSearch = splitId[6];
+        if (searchId.indexOf(idSearch) === -1) {
+            searchId.push(idSearch);
+        }
+    }
 }
 
 async function loadNames() {
-    for (let p = 0; p < names.length; p++) {
+    for (let p = start; p < next; p++) {
         let resp = await fetch(url + names[p]);
         currentPokemon = await resp.json();
-        console.log(currentPokemon);
+        /*console.log(currentPokemon);*/
         let idPokemon = currentPokemon['id'];
         id.push(idPokemon);
         loadPokemonNames();
     }
+
+    //loadSiteSearch();
 }
 
+function loadSiteSearch() {
+    if (last > 1) {
+        let scroll = document.getElementById(`${last-2}`);
+        scroll.scrollIntoView();
+    }
+
+}
 
 
 function loadPokemonNames() {
@@ -99,7 +123,7 @@ function loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo)
                     <p>${type}</p>
                     <p>${typeTwo}</p>
                 </div>
-                <img src="${pokemonIMG}">
+                <img id="img${currentPokemon['id']}" src="${pokemonIMG}">
             </div>
         </div>
     </div>
@@ -130,7 +154,7 @@ function loadPokemonColor(id, type) {
     } else if (type == 'fairy') {
         document.getElementById(`${id}`).style.backgroundColor = 'rgb(252, 179, 255)';
     } else if (type == 'fighting') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(133, 237, 255, 0.774)';
+        document.getElementById(`${id}`).style.backgroundColor = 'rgb(255, 231, 187)';
     } else if (type == 'psychic') {
         document.getElementById(`${id}`).style.backgroundColor = 'rgba(130, 0, 170, 0.61)';
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
@@ -138,8 +162,29 @@ function loadPokemonColor(id, type) {
         document.getElementById(`${id}`).style.backgroundColor = 'rgba(95, 95, 95, 0.774)';
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'ghost') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(201, 201, 201, 0.774)';
+        document.getElementById(`${id}`).style.backgroundColor = 'rgba(255, 255, 255, 0.774)';
+    } else if (type == 'dark') {
+        document.getElementById(`${id}`).style.backgroundColor = 'rgba(24, 24, 24, 0.774)';
+        document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
+        document.getElementById(`img${id}`).style.filter = 'drop-shadow(0px 0px 10px rgba(173, 173, 173, 0.473))';
+    } else if (type == 'dragon') {
+        document.getElementById(`${id}`).style.backgroundColor = 'rgba(122, 0, 0, 0.774)';
+        document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
+    }else if (type == 'ice') {
+        document.getElementById(`${id}`).style.backgroundColor = 'rgba(133, 237, 255, 0.774)';
+    }else if (type == 'steel') {
+        document.getElementById(`${id}`).style.backgroundColor = 'rgb(190, 190, 190)';
     } else {
         document.getElementById(`${id}`).style.backgroundColor = 'rgb(255, 255, 255)';
     }
+}
+
+function loadNext() {
+    let loadLimit = +document.getElementById('showLimit').value;
+    offset = `?offset=${next}&limit=${loadLimit}`;
+    last = last + loadLimit;
+    start = next;
+    nextsum = next + loadLimit;
+    next = nextsum;
+    loadPokemon();
 }

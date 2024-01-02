@@ -2,6 +2,14 @@ html, body{
     scroll-behavior: smooth;
     margin: 0;
     background-color: rgba(182, 182, 182, 0.644);
+    background-image: url('./img/pokemonballColor.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Mulish';
+    font-style: italic;
+    font-weight: 700;
 }
 
 header{
@@ -22,6 +30,39 @@ header{
     left: 0;
     right: 0;
     z-index: 6;
+    font-family: 'Seymour One';
+}
+
+.pokedexHeader{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    font-size: 25px;
+}
+
+.pokedexHeader img{
+    height: 60px;
+}
+
+.pokedexHeader input{
+    width: 200px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.pokedexHeader input::placeholder{
+    text-align: center;
+}
+
+.pokedexHeader input:focus{
+    outline: 1px solid grey;
+}
+
+.howToShow{
+    font-size: 18px;
 }
 
 p {
@@ -32,6 +73,8 @@ p {
 #showLimit{
     border: none;
     text-align: center;
+    font-family: 'Seymour One';
+    font-size: 18px;
 }
 
 #content{
@@ -112,4 +155,52 @@ footer button{
 footer button:hover{
     font-size: 15.5px;
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.814);
+}
+
+.searchIcon{
+    display: none;
+}
+
+@media (max-width: 780px){
+    .search{
+        display: none;
+    }
+
+    .searchIcon{
+        display: unset;
+        height: 40px !important;
+        cursor: pointer;
+        transition: all 225ms ease-in-out;
+    }
+
+    .searchIcon:hover{
+        filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
+    }
+}
+
+@media (max-width: 600px){
+    .pokedexHeader{
+        font-size: 16px;
+    }
+    
+    .pokedexHeader img{
+        height: 40px;
+    }
+    
+    .howToShow{
+        font-size: 14px;
+    }
+    #showLimit{
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 500px){
+    .headline{
+        display: none;
+    }
+
+    .pokedexLogo{
+        display: none;
+    }
 }

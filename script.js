@@ -31,6 +31,48 @@ function loadNext() {
     loadPokemon();
 }
 
+async function filter() {
+    let search = document.getElementById('searchHeader').value;
+    search = search.toLowerCase();
+    let content = document.getElementById('content');
+    content.innerHTML = '';
+    next = 20;
+    last = 1;
+    start = 0;
+    names = [];
+    id = [];
+    if (search.length == 0 || search == "") {
+        loadPokemon();
+        document.getElementById('loadNext').style.display = 'unset';
+    } else {
+        if (!isNaN(search)) {
+            for (i = 0; i < searchId.length; i++) {
+                if (searchId[i].toLowerCase().includes(search)) {
+                    let resp = await fetch(url + searchId[i]);
+                    currentPokemon = await resp.json();
+                    console.log(currentPokemon);
+                    if(searchId[i] < 9999){
+                        loadPokemonNames();
+                    }
+                }
+            }
+            document.getElementById('loadNext').style.display = 'none';
+        } else {
+            for (i = 0; i < searchNames.length; i++) {
+                if (searchNames[i].toLowerCase().includes(search)) {
+                    let resp = await fetch(url + searchNames[i]);
+                    currentPokemon = await resp.json();
+                    console.log(currentPokemon);
+                    if(searchId[i] < 9999){
+                        loadPokemonNames();
+                    }
+                }
+            }
+            document.getElementById('loadNext').style.display = 'none';
+        }
+    }
+}
+
 async function loadPokemon() {
     document.getElementById('loadNext').innerHTML = ``;
     let loadLimit = +document.getElementById('showLimit').value;
@@ -62,6 +104,15 @@ function loadPokemonNames() {
     let nameOfPokemon = currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1);
     let pokemonId = loadid(currentPokemon['id']);
     let pokemonIMG = currentPokemon['sprites']['other']['home']['front_default'];
+    if(pokemonIMG == null){
+        pokemonIMG = currentPokemon['sprites']['other']['official-artwork']['front_default'];
+        if(pokemonIMG == null){
+            pokemonIMG = currentPokemon['sprites']['front_default'];
+            if(pokemonIMG == null){
+                pokemonIMG = './img/pokeballtransperant.png';
+            }
+        }
+    }
     let type = currentPokemon['types'][0]['type']['name'].charAt(0).toUpperCase() + currentPokemon['types'][0]['type']['name'].slice(1);
     typeTwo = '';
     if (currentPokemon['types'].length === 2) {
@@ -147,9 +198,9 @@ function loadPokemonColor(id, type) {
     } else if (type == 'dragon') {
         document.getElementById(`${id}`).style.backgroundColor = 'rgba(122, 0, 0, 0.8)';
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
-    }else if (type == 'ice') {
+    } else if (type == 'ice') {
         document.getElementById(`${id}`).style.backgroundColor = 'rgba(133, 237, 255, 0.8)';
-    }else if (type == 'steel') {
+    } else if (type == 'steel') {
         document.getElementById(`${id}`).style.backgroundColor = 'rgb(190, 190, 0.8)';
     } else {
         document.getElementById(`${id}`).style.backgroundColor = 'rgb(255, 255, 255, 0.8)';

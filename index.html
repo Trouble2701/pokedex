@@ -13,7 +13,7 @@
 <body onload="loadPokemon()">
     <header>
         <div class="pokedexHeader"><img src="./img/pokeballtransperant.png" class="pokedexLogo"><img src="./icons/icons8-lupe-50.png" class="searchIcon" onclick="searchPokedex()"><p class="headline">PokeDex</p></div>
-        <div class="pokedexHeader search"><input type="text" id="searchHeader" placeholder="Search Pokemon (ID or Name)"></div>
+        <div class="pokedexHeader search"><input type="text" id="searchHeader" placeholder="Search Pokemon (ID or Name)" oninput="filter()"></div>
         <div class="pokedexHeader"><p class="howToShow">Show:</p><select id="showLimit" onchange="loadLimit()">
                 <option value="20">20</option>
                 <option value="40">40</option>
@@ -24,7 +24,7 @@
     </header>
 
     <div id="content"></div>
-    <footer class=""><button onclick="loadNext()" id="loadNext"></button></footer>
+    <footer><button onclick="loadNext()" id="loadNext"></button></footer>
 </body>
 
 </html>

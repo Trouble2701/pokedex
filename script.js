@@ -39,38 +39,37 @@ async function filter() {
     next = 20;
     last = 1;
     start = 0;
-    names = [];
-    id = [];
-    if (search.length == 0 || search == "") {
+    console.log(search);
+    if (search.length == 0 || search.length == "") {
+        content.innerHTML = '';
         loadPokemon();
-        document.getElementById('loadNext').style.display = 'unset';
+        console.log('werde angesprochen');
     } else {
+        let searchTitle = searchNames;
         if (!isNaN(search)) {
-            for (i = 0; i < searchId.length; i++) {
-                if (searchId[i].toLowerCase().includes(search)) {
-                    let resp = await fetch(url + searchId[i]);
-                    currentPokemon = await resp.json();
-                    console.log(currentPokemon);
-                    if(searchId[i] < 9999){
-                        loadPokemonNames();
-                    }
+            searchTitle = searchId;
+        }
+        for (i = 0; i < searchTitle.length; i++) {
+            if (searchTitle[i].toLowerCase().includes(search)) {
+                let resp = await fetch(url + searchTitle[i]);
+                currentPokemon = await resp.json();
+                //console.log(currentPokemon);
+                if (searchId[i] < 9999) {
+                    loadPokemonNames();
                 }
             }
-            document.getElementById('loadNext').style.display = 'none';
-        } else {
-            for (i = 0; i < searchNames.length; i++) {
-                if (searchNames[i].toLowerCase().includes(search)) {
-                    let resp = await fetch(url + searchNames[i]);
-                    currentPokemon = await resp.json();
-                    console.log(currentPokemon);
-                    if(searchId[i] < 9999){
-                        loadPokemonNames();
-                    }
-                }
-            }
-            document.getElementById('loadNext').style.display = 'none';
         }
     }
+}
+
+function searchPokedex() {    
+        document.getElementById('searchDiv').style.transform = 'translateY(0)';
+        document.getElementById( 'searchIcon' ).setAttribute( "onclick", "searchPokedexclose()" );
+}
+
+function searchPokedexclose() {    
+    document.getElementById('searchDiv').style.transform = 'translateY(-100px)';
+    document.getElementById( 'searchIcon' ).setAttribute( "onclick", "searchPokedex()" );
 }
 
 async function loadPokemon() {
@@ -92,7 +91,7 @@ async function loadNames() {
     for (let p = start; p < next; p++) {
         let resp = await fetch(url + names[p]);
         currentPokemon = await resp.json();
-        console.log(currentPokemon);
+        //console.log(currentPokemon);
         let idPokemon = currentPokemon['id'];
         id.push(idPokemon);
         loadPokemonNames();
@@ -104,11 +103,11 @@ function loadPokemonNames() {
     let nameOfPokemon = currentPokemon['name'].charAt(0).toUpperCase() + currentPokemon['name'].slice(1);
     let pokemonId = loadid(currentPokemon['id']);
     let pokemonIMG = currentPokemon['sprites']['other']['home']['front_default'];
-    if(pokemonIMG == null){
+    if (pokemonIMG == null) {
         pokemonIMG = currentPokemon['sprites']['other']['official-artwork']['front_default'];
-        if(pokemonIMG == null){
+        if (pokemonIMG == null) {
             pokemonIMG = currentPokemon['sprites']['front_default'];
-            if(pokemonIMG == null){
+            if (pokemonIMG == null) {
                 pokemonIMG = './img/pokeballtransperant.png';
             }
         }
@@ -118,7 +117,6 @@ function loadPokemonNames() {
     if (currentPokemon['types'].length === 2) {
         typeTwo = currentPokemon['types'][1]['type']['name'].charAt(0).toUpperCase() + currentPokemon['types'][1]['type']['name'].slice(1);
     }
-
     loadcontent.innerHTML += loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo);
 
     loadPokemonColor(currentPokemon['id'], currentPokemon['types'][0]['type']['name']);
@@ -225,3 +223,17 @@ async function loadSearch() {
         }
     }
 }
+
+
+window.addEventListener("resize", function(){
+    let width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (width <= 780) {
+        document.getElementById('searchDiv').classList.remove('pokedexHeader');
+        document.getElementById('searchDiv').classList.remove('search');
+        document.getElementById('searchDiv').classList.add('searchScreen');
+    }else{
+        document.getElementById('searchDiv').classList.remove('searchScreen');
+        document.getElementById('searchDiv').classList.add('pokedexHeader');
+        document.getElementById('searchDiv').classList.add('search');
+    }
+});

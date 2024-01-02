@@ -4,7 +4,7 @@ html, body{
     background-color: rgba(182, 182, 182, 0.644);
     background-image: url('./img/pokemonballColor.png');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: top;
     background-attachment: fixed;
     background-size: cover;
     font-family: 'Mulish';

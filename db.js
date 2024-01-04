@@ -1,0 +1,12 @@
+let url = 'https://pokeapi.co/api/v2/pokemon/';
+let urlSpecies = 'https://pokeapi.co/api/v2/pokemon-species/';
+let next = 20;
+let load = 20;
+let offset = '?offset=0&limit=20';
+let maxLimit = 898;
+let language = 5;
+let searchNames;
+let saveId = [];
+let searchId;
+let currentPokemon;
+let pokemonID;

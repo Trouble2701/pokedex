@@ -1,6 +1,6 @@
 function loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo) {
     return /*html*/`
-    <div class="pokemonCard" id="${pokemonID['id']}">
+    <div class="pokemonCard" id="${pokemonID['id']}" onclick="openCard(${pokemonID['id']})">
         <div class="pokemonTop">
             <div class="pokemon">
                 <div class="headerPokemon">

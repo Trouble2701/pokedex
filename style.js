@@ -1,25 +1,23 @@
-function searchPokedex() {    
+function searchPokedex() {
     document.getElementById('searchDiv').style.transform = 'translateY(0)';
-    document.getElementById( 'searchIcon' ).setAttribute( "onclick", "searchPokedexclose()" );
+    document.getElementById('searchIcon').setAttribute("onclick", "searchPokedexclose()");
 }
 
-function searchPokedexclose() {    
-document.getElementById('searchDiv').style.transform = 'translateY(-100px)';
-document.getElementById( 'searchIcon' ).setAttribute( "onclick", "searchPokedex()" );
+function searchPokedexclose() {
+    document.getElementById('searchDiv').style.transform = 'translateY(-100px)';
+    document.getElementById('searchIcon').setAttribute("onclick", "searchPokedex()");
 }
 
 function loadid(id) {
-    if (id.toString().length == 1) {
-        return `#00${id}`;
-    } else
-
-        if (id.toString().length == 2) {
+    if(id!=undefined){
+        if (id.toString().length == 1) {
+            return `#00${id}`;
+        } else if (id.toString().length == 2) {
             return `#0${id}`;
-        } else
-
-            if (id.toString().length > 2) {
-                return `#${id}`;
-            }
+        } else if (id.toString().length > 2) {
+            return `#${id}`;
+        }
+    }
 }
 
 
@@ -72,13 +70,13 @@ function loadPokemonColor(id, type) {
     }
 }
 
-window.addEventListener("resize", function(){
-    let width  = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+window.addEventListener("resize", function () {
+    let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (width <= 780) {
         document.getElementById('searchDiv').classList.remove('pokedexHeader');
         document.getElementById('searchDiv').classList.remove('search');
         document.getElementById('searchDiv').classList.add('searchScreen');
-    }else{
+    } else {
         document.getElementById('searchDiv').classList.remove('searchScreen');
         document.getElementById('searchDiv').classList.add('pokedexHeader');
         document.getElementById('searchDiv').classList.add('search');

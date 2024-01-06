@@ -1,15 +1,15 @@
-async function loadSpeechNames(id, speech) {
+async function loadSpeechNames(id) {
     let respSpecies = await fetch(urlSpecies + id);
     let species = await respSpecies.json();
-    console.log(species);
-    let nameSpeech = species['names'][speech]['name'];
+    //console.log(species);
+    let nameSpeech = species['names'][language]['name'];
     //console.log(nameSpeech);
     return nameSpeech.charAt(0).toUpperCase() + nameSpeech.slice(1);
 }
 
-function loadGermanTypes(lang, type) {
+function loadGermanTypes(type) {
 
-    if (lang == 5) {
+    if (language == 5) {
         if (type == 'fire') {
             return `Feuer`;
         } else if (type == 'grass') {
@@ -49,7 +49,7 @@ function loadGermanTypes(lang, type) {
         } else {
             return type.charAt(0).toUpperCase() + type.slice(1);
         }
-    } else if (lang == 8) {
+    } else if (language == 8) {
         return type.charAt(0).toUpperCase() + type.slice(1);
     }
 }
@@ -64,9 +64,9 @@ async function setLanguage() {
     document.getElementById('content').innerHTML = '';
     offset = `?offset=0&limit=${next}`;
     load = next;
-    await loadPokemon();
     load = +document.getElementById('showLimit').value;
     selectLanguage();
+    await loadPokemon();
 }
 
 function selectLanguage() {

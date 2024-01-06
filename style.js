@@ -22,51 +22,97 @@ function loadid(id) {
 
 
 function loadPokemonColor(id, type) {
+    let transperent = ', 0.8';
+    if(id == 'pokeCard'){
+        transperent = '';
+    }
     if (type == 'grass' || type == 'bug') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(106, 175, 106, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(106, 175, 106${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/wald.jpg")';
     } else if (type == 'fire') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(175, 106, 106, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(175, 106, 106${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/feuer.jpg")';
     } else if (type == 'water') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(106, 144, 175, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(106, 144, 175${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'normal') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(128, 128, 128, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(128, 128, 128${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'electric') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(255, 239, 91, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(255, 239, 91${transperent})`;
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/elektro.jpg")';
     } else if (type == 'ground') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(170, 119, 16, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(170, 119, 16${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'poison') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(139, 105, 194, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(139, 105, 194${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'fairy') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(252, 179, 255, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(252, 179, 255${transperent})`;
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/fee.jpg")';
     } else if (type == 'fighting') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(255, 231, 187, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(255, 231, 187${transperent})`;
     } else if (type == 'psychic') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(130, 0, 170, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(130, 0, 170${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/psycho.jpg")';
     } else if (type == 'rock') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(95, 95, 95, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(95, 95, 95${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'ghost') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(255, 255, 255${transperent})`;
     } else if (type == 'dark') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(24, 24, 24, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(24, 24, 24${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
         document.getElementById(`img${id}`).style.filter = 'drop-shadow(0px 0px 10px rgba(173, 173, 173, 0.473))';
     } else if (type == 'dragon') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(122, 0, 0, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(122, 0, 0${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'ice') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgba(133, 237, 255, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(133, 237, 255${transperent})`;
     } else if (type == 'steel') {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(190, 190, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgba(56, 56, 56${transperent})`;
     } else {
-        document.getElementById(`${id}`).style.backgroundColor = 'rgb(255, 255, 255, 0.8)';
+        document.getElementById(`${id}`).style.backgroundColor = `rgb(255, 255, 255${transperent})`;
+    }
+}
+
+function loadPokemonBgImg(type) {
+    if (type == 'grass' || type == 'bug') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/wald.jpg")';
+    } else if (type == 'fire') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/feuer.jpg")';
+    } else if (type == 'water') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/wasser.jpg")';
+    } else if (type == 'normal') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/normal.jpg")';
+    } else if (type == 'electric') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/elektro.jpg")';
+    } else if (type == 'ground') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/boden.jpg")';
+    } else if (type == 'poison') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/gift.jpg")';
+    } else if (type == 'fairy') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/fee.jpg")';
+    } else if (type == 'fighting') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/kampf.jpg")';
+    } else if (type == 'psychic') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/psycho.jpg")';
+    } else if (type == 'rock') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/gestein.jpg")';
+        document.getElementById(`pokeCard`).style.color = 'rgb(255, 255, 255) !important';
+    } else if (type == 'ghost') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/ghost.jpg")';
+    } else if (type == 'dark') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/dark.jpg")';
+    } else if (type == 'dragon') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/dragon.jpg")';
+    } else if (type == 'ice') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/eis.jpg")';
+    } else if (type == 'steel') {
+        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/stahl.jpg")';
     }
 }
 

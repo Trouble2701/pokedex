@@ -1,9 +1,7 @@
 async function loadSpeechNames(id) {
     let respSpecies = await fetch(urlSpecies + id);
     let species = await respSpecies.json();
-    //console.log(species);
     let nameSpeech = species['names'][language]['name'];
-    //console.log(nameSpeech);
     return nameSpeech.charAt(0).toUpperCase() + nameSpeech.slice(1);
 }
 

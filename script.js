@@ -25,10 +25,17 @@ async function loadPokemonNames() {
     let pokemonIMG = await loadImg();
     let type = loadGermanTypes(pokemonID['types'][0]['type']['name']);
     let typeTwo = '';
+    anable = 'no';
     if (pokemonID['types'].length === 2) {
         typeTwo = loadGermanTypes(pokemonID['types'][1]['type']['name']);
+        anable = 'yes';
     }
     loadcontent.innerHTML += loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo);
+    let typeTwoDisable = document.getElementById(`typeTwo${pokemonID['id']}`);
+    typeTwoDisable.style.display = 'none';
+    if(anable == 'yes'){
+        typeTwoDisable.style.display = 'unset';
+    }
     loadPokemonColor(pokemonID['id'], pokemonID['types'][0]['type']['name']);
 }
 
@@ -49,14 +56,47 @@ function loadNext() {
     loadPokemon();
 }
 
-function openCard(id){
+async function openCard(id){
+    let resp = await fetch(url + id);
+    let pokeData = await resp.json();
     let pokecard = document.getElementById('pokeCard');
     pokecard.style.transform = 'translateY(0)';
-    pokecard.innerHTML = `<div class="closeCard" onclick="closeCard()">X</div><br>${id}`;
+    loadPokemonBgImg(pokeData['types'][0]['type']['name']);
+    typeTwoPC = '';
+    if(pokeData['types'].length === 2){
+        typeTwoPC = loadGermanTypes(pokeData['types'][1]['type']['name']);
+    }
+    pokecard.innerHTML = /*html*/`
+    <div class="closeCard" onclick="closeCard()">X</div>
+        <div class="pokeCardTop">
+            <div>
+                <p>${await loadSpeechNames(pokeData['id'])}</p>
+                <p>${loadGermanTypes(pokeData['types'][0]['type']['name'])}</p>
+            </div>
+            <div>
+                <p>${loadid(pokeData['id'])}</p>
+                <p>${typeTwoPC}</p>
+            </div>
+            <img src="${pokeData['sprites']['other']['home']['front_default']}">
+        </div>
+        <div id="pokemonInnerCard">
+            <div id="cardLink">
+                <div class="link">About</div>
+                <div class="link">Stats</div>
+                <div class="link">Moves</div>
+            </div>
+            <div class="dataPokemon">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. In consectetur, ipsum optio ipsam earum explicabo enim minima eveniet voluptas praesentium culpa aspernatur necessitatibus nam magni maiores iste. Assumenda, accusamus. Impedit?
+            </div>
+            <div class="evolution">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam vel aperiam aliquid at accusantium officia eveniet aliquam distinctio. Sequi maxime iure quia fugit dolorum neque minima animi et! Saepe, alias!
+            </div>
+        </div>
+        `;
+    loadPokemonColor('pokeCard', pokeData['types'][0]['type']['name']);
 }
 
 function closeCard(){
     let pokecard = document.getElementById('pokeCard');
     pokecard.style.transform = 'translateY(-2000px)';
-    pokecard.innerHTML = '';
 }

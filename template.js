@@ -9,7 +9,7 @@ function loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo)
                 </div>
                 <div class="headerPokemon">
                     <p>${type}</p>
-                    <p>${typeTwo}</p>
+                    <p id="typeTwo${pokemonID['id']}">${typeTwo}</p>
                 </div>
                 <img id="img${pokemonID['id']}" src="${pokemonIMG}">
             </div>

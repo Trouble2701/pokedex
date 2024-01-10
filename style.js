@@ -29,11 +29,9 @@ function loadPokemonColor(id, type) {
     if (type == 'grass' || type == 'bug') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(106, 175, 106${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
-        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/wald.jpg")';
     } else if (type == 'fire') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(175, 106, 106${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
-        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/feuer.jpg")';
     } else if (type == 'water') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(106, 144, 175${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
@@ -42,7 +40,6 @@ function loadPokemonColor(id, type) {
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'electric') {
         document.getElementById(`${id}`).style.backgroundColor = `rgba(255, 239, 91${transperent})`;
-        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/elektro.jpg")';
     } else if (type == 'ground') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(170, 119, 16${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
@@ -51,13 +48,11 @@ function loadPokemonColor(id, type) {
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
     } else if (type == 'fairy') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(252, 179, 255${transperent})`;
-        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/fee.jpg")';
     } else if (type == 'fighting') {
         document.getElementById(`${id}`).style.backgroundColor = `rgb(255, 231, 187${transperent})`;
     } else if (type == 'psychic') {
         document.getElementById(`${id}`).style.backgroundColor = `rgba(130, 0, 170${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
-        document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/psycho.jpg")';
     } else if (type == 'rock') {
         document.getElementById(`${id}`).style.backgroundColor = `rgba(95, 95, 95${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
@@ -66,7 +61,6 @@ function loadPokemonColor(id, type) {
     } else if (type == 'dark') {
         document.getElementById(`${id}`).style.backgroundColor = `rgba(24, 24, 24${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
-        document.getElementById(`img${id}`).style.filter = 'drop-shadow(0px 0px 10px rgba(173, 173, 173, 0.473))';
     } else if (type == 'dragon') {
         document.getElementById(`${id}`).style.backgroundColor = `rgba(122, 0, 0${transperent})`;
         document.getElementById(`${id}`).style.color = 'rgb(255, 255, 255)';
@@ -102,7 +96,6 @@ function loadPokemonBgImg(type) {
         document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/psycho.jpg")';
     } else if (type == 'rock') {
         document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/gestein.jpg")';
-        document.getElementById(`pokeCard`).style.color = 'rgb(255, 255, 255) !important';
     } else if (type == 'ghost') {
         document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/ghost.jpg")';
     } else if (type == 'dark') {
@@ -114,6 +107,20 @@ function loadPokemonBgImg(type) {
     } else if (type == 'steel') {
         document.getElementById(`pokeCard`).style.backgroundImage = 'url("./img/stahl.jpg")';
     }
+}
+
+function loading(i){
+    let loadButton = document.getElementById('loadNext');
+        if(i < load-1){
+            loadButton.innerHTML = '';
+            loadButton.innerHTML = loadSpeech('load');
+            loadButton.disabled = true;
+            precentCalc();
+        }else if(i == load-1){
+            loadButton.innerHTML = '';
+            loadButton.innerHTML = loadSpeech(load);
+            loadButton.disabled = false;
+        }
 }
 
 window.addEventListener("resize", function () {

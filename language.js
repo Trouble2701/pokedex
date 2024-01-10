@@ -76,9 +76,27 @@ function selectLanguage() {
 }
 
 function loadSpeech(loadLimit){
+
     if (language == 5) {
-        return `Nächsten ${loadLimit} Pokemon Laden`;
+        if(loadLimit == 'load'){
+            return `Pokemon werden geladen`;
+        }else if(loadLimit == 'searchBar'){
+            return 'Pokemonsuche (ID or Name)';
+        }else if(loadLimit == 'searchTitle'){
+            return 'Pokemonsuche (ID or Name (Englische Namen))';
+        }else{
+            return `Nächsten ${loadLimit} Pokemon Laden`;
+        }
     } else if (language == 8) {
-        return `Load Next ${loadLimit} Pokemon`;
+        
+        if(loadLimit == 'load'){
+            return `Loading Pokemon`;
+        }else if(loadLimit == 'searchBar'){
+            return 'Search Pokemon (ID or Name)';
+        }else if(loadLimit == 'searchTitle'){
+            return 'Search Pokemon (ID or Name)';
+        }else{
+            return `Load Next ${loadLimit} Pokemon`;
+        }
     }
 }

@@ -21,6 +21,18 @@ async function loadNames() {
         loading(i);
     }
     load = +document.getElementById('showLimit').value;
+    loadStop();
+}
+
+function loadStop(){
+    let loadButton = document.getElementById('loadNext');
+    if(next + load > maxLimit){
+        load = next + load - maxLimit;
+        loadButton.innerHTML = loadSpeech(load);
+    }
+    if(next == maxLimit){
+        document.getElementById('loadNext').style.display = 'none';
+    }
 }
 
 async function loadPokemonNames() {
@@ -56,20 +68,11 @@ function loadLimit() {
     loadPokemon();
 }
 
-function loadNext() {
-    let loadButton = document.getElementById('loadNext');
+async function loadNext() {
     offset = `?offset=${next}&limit=${load}`;
     nextsum = next + load;
     next = nextsum;
-    if(next + load > maxLimit){
-        next = next + load - maxLimit;
-        load = load;
-        loadButton.innerHTML = loadSpeech(next);
-    }
-    if(next == maxLimit){
-        document.getElementById('loadNext').disabled = true;
-    }
-    loadPokemon();
+    await loadPokemon();
 }
 
 async function openCard(id) {

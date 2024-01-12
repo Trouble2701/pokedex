@@ -13,6 +13,55 @@ body {
     font-weight: 700;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(182, 0, 0);
+    border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 66%, 42%);
+}
+
+.animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    display: none;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .fadeIn {
+    animation-name: fadeIn;
+  }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .fadeOut {
+    animation-name: fadeOut;
+  }
+
 header {
     display: flex;
     justify-content: space-between;
@@ -89,12 +138,17 @@ p {
     font-family: 'Seymour One';
 }
 
+#circle{
+    width: 200px;
+    height: 200px;
+}
+
 .loadingCircle{
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.466);
+    background-color: rgba(255, 255, 255, 0.685);
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -228,23 +282,44 @@ p {
     position: absolute;
     top: 20px;
     width: 100%;
+    height: 30px;
     color: black;
     padding-bottom: 5px;
     border-bottom: 2px solid grey;
 }
 
 .link {
+    transform: scale(1);
+    transition: all 225ms ease-in-out;
     cursor: pointer;
+}
+
+.link:hover {
+    transform: scale(0.98);
 }
 
 .dataPokemon{
     position: absolute;
     top: 60px;    
-    width: 95%;
+    width: 90%;
+    height: calc(100% - 250px);
+}
+
+.evolutions{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: black;
+    padding-bottom: 5px;
+    position: absolute;
+    bottom: 150px;
+    border-bottom: 2px solid grey;
 }
 
 .evolution{
     width: 95%;
+    max-height: 120px;
     position: absolute;
     bottom: 30px;
     display: flex;
@@ -252,6 +327,12 @@ p {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    overflow-y: auto;
+    transition: all 225ms ease-in-out;
+}
+
+#evolutionShinyShow{
+    display: none;
 }
 
 .evoPoke{

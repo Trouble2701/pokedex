@@ -123,6 +123,30 @@ function loading(i){
         }
 }
 
+function loadPokeCardEvo(shiny) {
+    let evolutionShow = document.getElementById('evolutionShow');
+    let evolutionShinyShow = document.getElementById('evolutionShinyShow');
+    if (shiny == 'shiny') {
+        evolutionShow.classList.remove('fadeIn');
+        evolutionShow.classList.add('fadeOut');
+        setTimeout(() => {
+            evolutionShow.style.display = 'none';
+        }, 500);
+        evolutionShinyShow.classList.remove('fadeOut');
+        evolutionShinyShow.classList.add('fadeIn');
+        evolutionShinyShow.style.display = 'flex';
+    } else {
+        evolutionShinyShow.classList.remove('fadeIn');
+        evolutionShinyShow.classList.add('fadeOut');
+        setTimeout(() => {
+            evolutionShinyShow.style.display = 'none';
+        }, 500);
+        evolutionShow.classList.remove('fadeOut');
+        evolutionShow.classList.add('fadeIn');
+        evolutionShow.style.display = 'flex';
+    }
+}
+
 window.addEventListener("resize", function () {
     let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (width <= 780) {

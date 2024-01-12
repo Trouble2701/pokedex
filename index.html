@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PokeDex</title>
+    <link rel="shortcut icon" href="./icons/icons8-neues-pokemon-48.png" type="image/x-icon">
     <link rel="stylesheet" href="font.css">
     <link rel="stylesheet" href="style.css">
     <script src="db.js"></script>
@@ -16,25 +17,34 @@
 </head>
 
 <body onload="selectLanguage(), loadPokemon()">
-    <div class="loadingCircle" id="loadingCircle"><svg id="circle"></svg></div>
-    <div class="pokeCard" id="pokeCard"></div>
-    <header id="header">
-        <div class="pokedexHeader"><img src="./img/pokeballtransperant.png" class="pokedexLogo"><img src="./icons/icons8-lupe-50.png" class="searchIcon" onclick="searchPokedex()" id="searchIcon"><p class="headline">PokeDex</p></div>
-        <div class="pokedexHeader search" id="searchDiv"><input type="text" id="searchHeader" title="Search Pokemon (ID or Name)" placeholder="Search Pokemon (ID or Name)" oninput="filter()"></div>
-        <div class="pokedexHeader"><select id="language" onchange="setLanguage()">
-            <option id="deutsch">DE</option>
-            <option id="english">EN</option>
-        </select><p class="howToShow">Show:</p><select id="showLimit" onchange="loadLimit()">
-                <option>20</option>
-                <option>40</option>
-                <option>60</option>
-                <option>80</option>
-                <option>100</option>
-            </select></div>
-    </header>
+    <div onclick="closeCard()">
+        <div class="loadingCircle" id="loadingCircle"><svg id="circle"></svg></div>
+        <div class="pokeCard" id="pokeCard" onclick="notClose(event)"></div>
+        <header id="header">
+            <div class="pokedexHeader"><img src="./img/pokeballtransperant.png" class="pokedexLogo"><img
+                    src="./icons/icons8-lupe-50.png" class="searchIcon" onclick="searchPokedex()" id="searchIcon">
+                <p class="headline">PokeDex</p>
+            </div>
+            <div class="pokedexHeader search" id="searchDiv"><input type="text" id="searchHeader"
+                    title="Search Pokemon (ID or Name)" placeholder="Search Pokemon (ID or Name)" oninput="filter()">
+            </div>
+            <div class="pokedexHeader"><select id="language" onchange="setLanguage()">
+                    <option id="deutsch">DE</option>
+                    <option id="english">EN</option>
+                </select>
+                <p class="howToShow">Show:</p><select id="showLimit" onchange="loadLimit()">
+                    <option>20</option>
+                    <option>40</option>
+                    <option>60</option>
+                    <option>80</option>
+                    <option>100</option>
+                </select>
+            </div>
+        </header>
 
-    <div id="content"></div>
-    <footer><button onclick="loadNext()" id="loadNext"></button></footer>
+        <div id="content"></div>
+        <footer><button onclick="loadNext()" id="loadNext"></button></footer>
+    </div>
 </body>
 
 </html>

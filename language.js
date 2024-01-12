@@ -100,3 +100,13 @@ function loadSpeech(loadLimit){
         }
     }
 }
+
+function readLang(){
+    if(language == 5){
+        return 'de';
+    }
+
+    if(language == 8){
+        return 'en';
+    }
+}

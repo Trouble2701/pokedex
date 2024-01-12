@@ -5,7 +5,7 @@ let next = 20;
 let load = 20;
 let offset = '?offset=0&limit=20';
 //let maxLimit = 1017;
-let maxLimit = 350;
+let maxLimit = 217;
 let language = 5;
 let searchNames;
 let saveId = [];

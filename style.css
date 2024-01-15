@@ -303,6 +303,22 @@ p {
     top: 60px;    
     width: 90%;
     height: calc(100% - 250px);
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dataMoves{
+    background-color: rgba(0, 26, 255, 0.288);
+    padding: 8px;
+    margin: 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 26, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.349);
+    cursor: help;
 }
 
 .evolutions{

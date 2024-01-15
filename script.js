@@ -1,6 +1,6 @@
 async function loadPokemon() {
     document.body.style.overflow = 'hidden';
-    calcProcent = 100/load;
+    calcProcent = 100 / load;
     let searchBar = document.getElementById('searchHeader');
     let loadButton = document.getElementById('loadNext');
     let response = await fetch(url + offset);
@@ -16,7 +16,7 @@ async function loadPokemon() {
 
 async function loadNames() {
     for (let i = 0; i < load; i++) {
-        procent = procent+calcProcent;
+        procent = procent + calcProcent;
         let resp = await fetch(url + currentPokemon['results'][i]['name']);
         pokemonID = await resp.json();
         await loadPokemonNames();
@@ -27,13 +27,13 @@ async function loadNames() {
     document.body.style.overflow = 'unset';
 }
 
-function loadStop(){
+function loadStop() {
     let loadButton = document.getElementById('loadNext');
-    if(next + load > maxLimit){
+    if (next + load > maxLimit) {
         load = maxLimit - next;
         loadButton.innerHTML = loadSpeech(load);
     }
-    if(next == maxLimit){
+    if (next == maxLimit) {
         document.getElementById('loadNext').style.display = 'none';
     }
 }
@@ -54,7 +54,7 @@ async function loadPokemonNames() {
     loadPokemonColor(pokemonID['id'], pokemonID['types'][0]['type']['name']);
 }
 
-function typeTwoLoading(anable){
+function typeTwoLoading(anable) {
     let typeTwoDisable = document.getElementById(`typeTwo${pokemonID['id']}`);
     typeTwoDisable.style.display = 'none';
     if (anable == 'yes') {
@@ -79,7 +79,7 @@ async function loadNext() {
 }
 //Auslagern
 async function openCard(id) {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden !important';
     let resp = await fetch(url + id);
     let pokeData = await resp.json();
     let pokecard = document.getElementById('pokeCard');
@@ -89,7 +89,7 @@ async function openCard(id) {
     let evolution = await respEvoShow.json();
     pokecard.style.transform = 'translateY(0)';
     loadPokemonBgImg(pokeData['types'][0]['type']['name']);
-    console.log(pokeData, evolutionUrl);
+    //console.log(pokeData, evolutionUrl);
     typeTwoPC = '';
     let twoAnable = 'no';
     if (pokeData['types'].length === 2) {
@@ -113,7 +113,7 @@ async function openCard(id) {
             <div id="cardLink">
                 <div class="link" onclick="dataPokemon('basic', ${pokeData['id']})">Basic</div>
                 <div class="link" onclick="dataPokemon('stats', ${pokeData['id']})">Stats</div>
-                <div class="link" onclick="dataPokemon('moves', ${pokeData['id']})">Moves</div>
+                <div class="link" onclick="dataPokemon('moves', ${pokeData['id']})">${pokeData['moves'].length} Moves</div>
             </div>
             <div class="dataPokemon" id="dataPokemon"></div>
             <div class="evolutions">
@@ -125,7 +125,7 @@ async function openCard(id) {
 
         </div>
         `;
-        dataPokemon('basic', pokeData['id']);
+    dataPokemon('basic', pokeData['id']);
     let twoType = document.getElementById('twoType');
     twoType.style.display = 'none';
     if (twoAnable == 'yes') {
@@ -135,13 +135,13 @@ async function openCard(id) {
     let evolutionShinyShow = document.getElementById('evolutionShinyShow');
     let respImg = await fetch(url + evolution['chain']['species']['name']);
     let pokeImg = await respImg.json();
-    if(evolution['chain']['evolves_to'].length > 0){
+    if (evolution['chain']['evolves_to'].length > 0) {
         evolutionShow.innerHTML = `<img class="evoPoke" src="${await loadImg(pokeImg['sprites'])}">`;
         evolutionShinyShow.innerHTML = `<img class="evoPoke" src="${await loadImgShiny(pokeImg['sprites'])}">`;
-    }else if(evolution['chain']['evolves_to'].length == 0){
+    } else if (evolution['chain']['evolves_to'].length == 0) {
         evolutionShow.innerHTML = 'Keine Evolution';
     }
-    
+
 
     for (let e = 0; e < evolution['chain']['evolves_to'].length; e++) {
         if (evolution['chain']['evolves_to'].length > 0) {
@@ -172,12 +172,12 @@ function closeCard() {
 
 
 function precentCalc() {
-    let procentSVG = (procent + calcProcent)/100;
-    let circleTimeCalc = time/1000;
+    let procentSVG = (procent + calcProcent) / 100;
+    let circleTimeCalc = time / 1000;
     document.getElementById('circle').innerHTML = circle(procentSVG, circleTimeCalc);
-    document.getElementById('text').innerHTML = `${Math.round(procentSVG*100)}%`;
-    if(Math.round(procentSVG*100) == 100){
-        
+    document.getElementById('text').innerHTML = `${Math.round(procentSVG * 100)}%`;
+    if (Math.round(procentSVG * 100) == 100) {
+
         document.getElementById('loadingCircle').style.display = 'none';
         procent = 0;
         calcProcent = 0;
@@ -194,27 +194,27 @@ function dataPokemon(site, id) {
     }
 }
 
-async function dataDb(data, id){
+async function dataDb(data, id) {
     let resp = await fetch(url + id);
     let pokeData = await resp.json();
 
     let respEvo = await fetch(urlSpecies + id);
     let evolutionUrl = await respEvo.json();
 
-    if(data == 'basic') dataBasic(pokeData, evolutionUrl);
-    if(data == 'stats') dataStats(pokeData);
-    if(data == 'moves') dataMoves(pokeData);
+    if (data == 'basic') dataBasic(pokeData, evolutionUrl);
+    if (data == 'stats') dataStats(pokeData);
+    if (data == 'moves') dataMoves(pokeData);
 }
 //Auslagern
-function dataBasic(pokeData, evolutionUrl){
+function dataBasic(pokeData, evolutionUrl) {
     setNumber = 0;
-    for(i = 0; i < evolutionUrl['flavor_text_entries'].length; i++){
-        if(evolutionUrl['flavor_text_entries'][i]['language']['name'] == readLang()) setNumber = i; 
+    for (i = 0; i < evolutionUrl['flavor_text_entries'].length; i++) {
+        if (evolutionUrl['flavor_text_entries'][i]['language']['name'] == readLang()) setNumber = i;
     }
     let evoText = evolutionUrl['flavor_text_entries'][setNumber]['flavor_text'];
     setGeneraNumber = 0;
-    for(g = 0; g < evolutionUrl['genera'].length; g++){
-        if(evolutionUrl['genera'][g]['language']['name'] == readLang()) setGeneraNumber = g; 
+    for (g = 0; g < evolutionUrl['genera'].length; g++) {
+        if (evolutionUrl['genera'][g]['language']['name'] == readLang()) setGeneraNumber = g;
     }
     let evoGenera = evolutionUrl['genera'][setGeneraNumber]['genus'];
     let dataPokemon = document.getElementById('dataPokemon');
@@ -222,18 +222,40 @@ function dataBasic(pokeData, evolutionUrl){
     dataPokemon.innerHTML = loadBasicTemplate(evoText, evoGenera, pokeData);
 }
 //Auslagern
-function dataStats(pokeData){
+async function dataStats(pokeData) {
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
-    dataPokemon.innerHTML = `${pokeData['stats'][0]['stat']['name']}: ${pokeData['stats'][0]['base_stat']}`;
+    setNumber = 0;
+    for (i = 0; i < pokeData['stats'].length; i++) {
+        let statsResp = await fetch(pokeData['stats'][i]['stat']['url']);
+        let statLang = await statsResp.json();
+        for(s = 0; s < statLang['names'].length; s++){
+            if(statLang['names'][s]['language']['name'] == readLang()){
+                dataPokemon.innerHTML += `${statLang['names'][s]['name']}: ${pokeData['stats'][i]['base_stat']}<br>`;  
+            }
+        }   
+    }
 }
 //Auslagern
-function dataMoves(pokeData){
+async function dataMoves(pokeData) {
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
-    dataPokemon.innerHTML = `${pokeData['moves'][0]['move']['name']}`;
+    for(i = 0; i < pokeData['moves'].length; i++){
+        let moveResp = await fetch(pokeData['moves'][i]['move']['url']);
+        let moveLang = await moveResp.json();
+        for(m = 0; m < moveLang['names'].length; m++){
+            if(moveLang['names'][m]['language']['name'] == readLang()){
+                dataPokemon.innerHTML+= `<div class="dataMoves" id="${moveLang['names'][m]['name']}">${moveLang['names'][m]['name']}</div>`;
+                for (t = 0; t < moveLang['flavor_text_entries'].length; t++){
+                    if(moveLang['flavor_text_entries'][t]['language']['name'] == readLang()){
+                        document.getElementById(`${moveLang['names'][m]['name']}`).title = moveLang['flavor_text_entries'][t]['flavor_text'];
+                    }
+                }
+            }
+        }
+    }
 }
 
-function notClose(event){
+function notClose(event) {
     event.stopPropagation();
 }

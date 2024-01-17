@@ -15,3 +15,5 @@ let pokemonID;
 let procent = 0;
 let calcProcent = 0;
 let time = 3000;
+let statLabels = [];
+let statData = [];

@@ -5,50 +5,13 @@ async function loadSpeechNames(id) {
     return nameSpeech.charAt(0).toUpperCase() + nameSpeech.slice(1);
 }
 
-function loadGermanTypes(type) {
-
-    if (language == 5) {
-        if (type == 'fire') {
-            return `Feuer`;
-        } else if (type == 'grass') {
-            return `Pflanze`;
-        } else if (type == 'water') {
-            return `Wasser`;
-        } else if (type == 'normal') {
-            return `Normal`;
-        } else if (type == 'electric') {
-            return `Elektro`;
-        } else if (type == 'ground') {
-            return `Boden`;
-        } else if (type == 'poison') {
-            return `Gift`;
-        } else if (type == 'fairy') {
-            return `Fee`;
-        } else if (type == 'fighting') {
-            return `Kampf`;
-        } else if (type == 'psychic') {
-            return `Psycho`;
-        } else if (type == 'rock') {
-            return `Gestein`;
-        } else if (type == 'ghost') {
-            return `Geist`;
-        } else if (type == 'dark') {
-            return `Unlicht`;
-        } else if (type == 'dragon') {
-            return `Drache`;
-        } else if (type == 'ice') {
-            return `Eis`;
-        } else if (type == 'steel') {
-            return `Stahl`;
-        } else if (type == 'bug') {
-            return `Insekt`;
-        } else if (type == 'flying') {
-            return `Flug`;
-        } else {
-            return type.charAt(0).toUpperCase() + type.slice(1);
+async function typeLoad(type){
+    let respType = await fetch(`https://pokeapi.co/api/v2/type/${type}/`);
+    let typeSpeech = await respType.json();
+    for(i = 0; i < typeSpeech['names'].length; i++){
+        if(typeSpeech['names'][i]['language']['name'] == readLang()){
+            return typeSpeech['names'][i]['name'];
         }
-    } else if (language == 8) {
-        return type.charAt(0).toUpperCase() + type.slice(1);
     }
 }
 

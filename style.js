@@ -1,5 +1,5 @@
 function searchPokedex() {
-    document.getElementById('searchDiv').style.transform = 'translateY(0)';
+    document.getElementById('searchDiv').style.transform = 'translateY(0px)';
     document.getElementById('searchIcon').setAttribute("onclick", "searchPokedexclose()");
 }
 

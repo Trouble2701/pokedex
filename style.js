@@ -20,6 +20,34 @@ function loadid(id) {
     }
 }
 
+function loading(i){
+    let loadButton = document.getElementById('loadNext');
+        if(i < load-1){
+            loadButton.innerHTML = '';
+            loadButton.innerHTML = loadSpeech('load');
+            loadButton.disabled = true;
+            document.body.style.overflow = 'hidden';
+            precentCalc();
+        }else if(i == load-1){
+            loadButton.innerHTML = '';
+            loadButton.innerHTML = loadSpeech(load);
+            loadButton.disabled = false;
+            document.body.style.overflow = '';
+        }
+}
+
+function precentCalc() {
+    let procentSVG = (procent + calcProcent) / 100;
+    let circleTimeCalc = time / 1000;
+    document.getElementById('circle').innerHTML = circle(procentSVG, circleTimeCalc);
+    document.getElementById('text').innerHTML = `${Math.round(procentSVG * 100)}%`;
+    if (Math.round(procentSVG * 100) >= 100) {
+
+        document.getElementById('loadingCircle').style.display = 'none';
+        procent = 0;
+        calcProcent = 0;
+    }
+}
 
 function loadPokemonColor(id, type) {
     let transperent = ', 0.8';
@@ -109,18 +137,34 @@ function loadPokemonBgImg(type) {
     }
 }
 
-function loading(i){
-    let loadButton = document.getElementById('loadNext');
-        if(i < load-1){
-            loadButton.innerHTML = '';
-            loadButton.innerHTML = loadSpeech('load');
-            loadButton.disabled = true;
-            precentCalc();
-        }else if(i == load-1){
-            loadButton.innerHTML = '';
-            loadButton.innerHTML = loadSpeech(load);
-            loadButton.disabled = false;
-        }
+function typeTwoLoading(anableLoad) {
+    let typeTwoDisable = document.getElementById(`typeTwo${pokemonID['id']}`);
+    typeTwoDisable.style.display = 'none';
+    if (anableLoad == 'yes') {
+        typeTwoDisable.style.display = 'unset';
+    }
+}
+
+async function pokeCardTwoTypes(pokedata){
+    if (pokedata['types'].length === 2) {
+        return await typeLoad(pokedata['types'][1]['type']['name']);
+    }
+}
+
+function pokeCardTwoTypesAnable(pokeData){
+    if (pokeData['types'].length === 2) {
+        return 'yes';
+    }else{
+        return 'no';
+    }
+}
+
+function pokeCardTwoTypeshow(twoAnable){
+    let twoType = document.getElementById('twoType');
+    twoType.style.display = 'none';
+    if (twoAnable == 'yes') {
+        twoType.style.display = 'unset';
+    }
 }
 
 function loadPokeCardEvo(shiny) {
@@ -145,6 +189,22 @@ function loadPokeCardEvo(shiny) {
         evolutionShow.classList.add('fadeIn');
         evolutionShow.style.display = 'flex';
     }
+}
+
+function openPokeCard(pokecard){
+    document.body.style.overflow = 'hidden';
+    pokecard.style.transform = 'translateY(0)';
+}
+
+function closeCard() {
+    let pokecard = document.getElementById('pokeCard');
+    pokecard.style.transform = 'translateY(-2000px)';
+    pokecard.innerHTML = '';
+    document.body.style.overflow = '';
+}
+
+function notClose(event) {
+    event.stopPropagation();
 }
 
 window.addEventListener("resize", function () {

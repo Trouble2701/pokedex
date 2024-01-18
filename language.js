@@ -1,13 +1,15 @@
 async function loadSpeechNames(id) {
-    let respSpecies = await fetch(urlSpecies + id);
-    let species = await respSpecies.json();
-    let nameSpeech = species['names'][language]['name'];
-    return nameSpeech.charAt(0).toUpperCase() + nameSpeech.slice(1);
+    let species = await loadJsonSpecies(id);
+    for (i = 0; i < species['names'].length; i++){
+        if(species['names'][i]['language']['name'] == readLang()){
+            let nameSpeech = species['names'][i]['name'];
+            return nameSpeech.charAt(0).toUpperCase() + nameSpeech.slice(1);
+        }
+    }
 }
 
 async function typeLoad(type){
-    let respType = await fetch(`https://pokeapi.co/api/v2/type/${type}/`);
-    let typeSpeech = await respType.json();
+    let typeSpeech = await loadJsonEvo(`https://pokeapi.co/api/v2/type/${type}/`);
     for(i = 0; i < typeSpeech['names'].length; i++){
         if(typeSpeech['names'][i]['language']['name'] == readLang()){
             return typeSpeech['names'][i]['name'];
@@ -18,9 +20,9 @@ async function typeLoad(type){
 async function setLanguage() {
     let lang = document.getElementById('language');
     if (lang.value == 'DE') {
-        language = 5;
+        language = 'de';
     } else if (lang.value == 'EN') {
-        language = 8;
+        language = 'en';
     }
     document.getElementById('content').innerHTML = '';
     offset = `?offset=0&limit=${next}`;
@@ -31,16 +33,16 @@ async function setLanguage() {
 }
 
 function selectLanguage() {
-    if (language == 5) {
+    if (language == 'de') {
         document.getElementById("deutsch").selected = true;
-    } else if (language == 8) {
+    } else if (language == 'en') {
         document.getElementById("english").selected = true;
     }
 }
 
 function loadSpeech(loadLimit){
 
-    if (language == 5) {
+    if (language == 'de') {
         if(loadLimit == 'load'){
             return `Pokemon werden geladen`;
         }else if(loadLimit == 'searchBar'){
@@ -50,7 +52,7 @@ function loadSpeech(loadLimit){
         }else{
             return `Nächsten ${loadLimit} Pokemon Laden`;
         }
-    } else if (language == 8) {
+    } else if (language == 'en') {
         
         if(loadLimit == 'load'){
             return `Loading Pokemon`;
@@ -65,11 +67,11 @@ function loadSpeech(loadLimit){
 }
 
 function readLang(){
-    if(language == 5){
+    if(language == 'de'){
         return 'de';
     }
 
-    if(language == 8){
+    if(language == 'en'){
         return 'en';
     }
 }

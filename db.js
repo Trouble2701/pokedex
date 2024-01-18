@@ -6,7 +6,7 @@ let load = 20;
 let offset = '?offset=0&limit=20';
 //let maxLimit = 1017;
 let maxLimit = 217;
-let language = 5;
+let language = 'de';
 let searchNames;
 let saveId = [];
 let searchId;
@@ -17,3 +17,18 @@ let calcProcent = 0;
 let time = 3000;
 let statLabels = [];
 let statData = [];
+
+async function loadJsonAll(link){
+    let response = await fetch(url + link);
+    return await response.json();
+}
+
+async function loadJsonSpecies(link){
+    let response = await fetch(urlSpecies + link);
+    return await response.json();
+}
+
+async function loadJsonEvo(link){
+    let response = await fetch(link);
+    return await response.json();
+}

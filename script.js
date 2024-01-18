@@ -1,14 +1,7 @@
 async function loadPokemon() {
-    document.body.style.overflow = 'hidden';
+    loadTranslate();
     calcProcent = 100 / load;
-    let searchBar = document.getElementById('searchHeader');
-    let loadButton = document.getElementById('loadNext');
-    let response = await fetch(url + offset);
-    searchBar.placeholder = loadSpeech('searchBar');
-    searchBar.title = loadSpeech('searchTitle');
-    loadButton.innerHTML = '';
-    loadButton.innerHTML = loadSpeech(load);
-    currentPokemon = await response.json();
+    currentPokemon = await loadJsonAll(offset);
     loadNames();
     loadSearch();
     loadTemplate();
@@ -17,14 +10,12 @@ async function loadPokemon() {
 async function loadNames() {
     for (let i = 0; i < load; i++) {
         procent = procent + calcProcent;
-        let resp = await fetch(url + currentPokemon['results'][i]['name']);
-        pokemonID = await resp.json();
+        pokemonID = await loadJsonAll(currentPokemon['results'][i]['name']);
         await loadPokemonNames();
         loading(i);
     }
     load = +document.getElementById('showLimit').value;
     loadStop();
-    document.body.style.overflow = 'unset';
 }
 
 function loadStop() {
@@ -43,22 +34,21 @@ async function loadPokemonNames() {
     let pokemonId = loadid(pokemonID['id']);
     let pokemonIMG = await loadImg(pokemonID['sprites']);
     let type = await typeLoad(pokemonID['types'][0]['type']['name']);
-    let typeTwo = '';
-    let anable = 'no';
-    if (pokemonID['types'].length === 2) {
-        typeTwo = await typeLoad(pokemonID['types'][1]['type']['name']);
-        anable = 'yes';
-    }
+    let typeTwo = await loadTypeTwo('type');
+    let anable = await loadTypeTwo('anable');
     document.getElementById('content').innerHTML += loadPokemonContent(nameOfPokemon, pokemonId, pokemonIMG, type, typeTwo);
     typeTwoLoading(anable);
     loadPokemonColor(pokemonID['id'], pokemonID['types'][0]['type']['name']);
 }
 
-function typeTwoLoading(anable) {
-    let typeTwoDisable = document.getElementById(`typeTwo${pokemonID['id']}`);
-    typeTwoDisable.style.display = 'none';
-    if (anable == 'yes') {
-        typeTwoDisable.style.display = 'unset';
+async function loadTypeTwo(type){
+    if (pokemonID['types'].length === 2) {
+        if(type == 'anable'){
+            return 'yes';
+        }else if(type == 'type'){
+            return await typeLoad(pokemonID['types'][1]['type']['name']);
+        }
+        
     }
 }
 
@@ -77,146 +67,62 @@ async function loadNext() {
     next = nextsum;
     await loadPokemon();
 }
-//Auslagern
+
 async function openCard(id) {
-    document.body.style.overflow = 'hidden !important';
-    let resp = await fetch(url + id);
-    let pokeData = await resp.json();
+    let pokeData = await loadJsonAll(id);
     let pokecard = document.getElementById('pokeCard');
-    let respEvo = await fetch(urlSpecies + id);
-    let evolutionUrl = await respEvo.json();
-    let respEvoShow = await fetch(evolutionUrl['evolution_chain']['url']);
-    let evolution = await respEvoShow.json();
-    pokecard.style.transform = 'translateY(0)';
+    openPokeCard(pokecard);
     loadPokemonBgImg(pokeData['types'][0]['type']['name']);
-    typeTwoPC = '';
-    let twoAnable = 'no';
-    if (pokeData['types'].length === 2) {
-        typeTwoPC = await typeLoad(pokeData['types'][1]['type']['name']);
-        twoAnable = 'yes';
-    }
-    pokecard.innerHTML = /*html*/`
-    <div class="closeCard" onclick="closeCard()">X</div>
-        <div class="pokeCardTop">
-            <div>
-                <p>${await loadSpeechNames(pokeData['id'])}</p>
-                <p>${await typeLoad(pokeData['types'][0]['type']['name'])}</p>
-            </div>
-            <div>
-                <p>${loadid(pokeData['id'])}</p>
-                <p id="twoType">${typeTwoPC}</p>
-            </div>
-            <img src="${await loadImg(pokeData['sprites'])}">
-        </div>
-        <div id="pokemonInnerCard">
-            <div id="cardLink">
-                <a class="link" onclick="dataPokemon('basic', ${pokeData['id']})">Basic</a>
-                <a class="link" onclick="dataPokemon('stats', ${pokeData['id']})">Stats</a>
-                <a class="link" onclick="dataPokemon('moves', ${pokeData['id']})">${pokeData['moves'].length} Moves</a>
-            </div>
-            <div class="dataPokemon" id="dataPokemon"></div>
-            <div class="evolutions">
-                <a onclick="loadPokeCardEvo('none')"  class="link">Evolution</a>
-                <a onclick="loadPokeCardEvo('shiny')" class="link">Evolution Shiny</a>
-            </div>
-            <div class="evolution animated fadeIn" id='evolutionShow'></div>
-            <div class="evolution animated fadeOut" id='evolutionShinyShow'></div>
-
-        </div>
-        `;
+    let typeTwoPC = await pokeCardTwoTypes(pokeData);
+    let twoAnable = pokeCardTwoTypesAnable(pokeData);
+    pokecard.innerHTML = await pokeCardTemplate(pokeData['id'], pokeData['types'][0]['type']['name'], typeTwoPC, pokeData['sprites'], pokeData['moves'].length);
     dataPokemon('basic', pokeData['id']);
-    let twoType = document.getElementById('twoType');
-    twoType.style.display = 'none';
-    if (twoAnable == 'yes') {
-        twoType.style.display = 'unset';
-    }
-    let evolutionShow = document.getElementById('evolutionShow');
-    let evolutionShinyShow = document.getElementById('evolutionShinyShow');
-    let respImg = await fetch(url + evolution['chain']['species']['name']);
-    let pokeImg = await respImg.json();
-    if (evolution['chain']['evolves_to'].length > 0) {
-        let evoId = evolution['chain']['species']['url'];
-        let splitId = evoId.split('/');
-        let evoIdSearch = splitId[6];
-        evolutionShow.innerHTML = `<a class="link" onclick="openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImg(pokeImg['sprites'])}"></a>`;
-        evolutionShinyShow.innerHTML = `<a class="link" onclick="openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImgShiny(pokeImg['sprites'])}"></a>`;
-    } else if (evolution['chain']['evolves_to'].length == 0) {
-        evolutionShow.innerHTML = 'Keine Evolution';
-        evolutionShinyShow.innerHTML = 'Keine Evolution';
-    }
-
-
-    for (let e = 0; e < evolution['chain']['evolves_to'].length; e++) {
-
-        if (evolution['chain']['evolves_to'].length > 0) {
-            let respImg = await fetch(url + evolution['chain']['evolves_to'][e]['species']['name']);
-            let pokeImg = await respImg.json()
-            let evoId = evolution['chain']['evolves_to'][e]['species']['url'];
-            let splitId = evoId.split('/');
-            let evoIdSearch = splitId[6];
-            evolutionShow.innerHTML += `<img class="evoball" src="./icons/evoball.png"><a class="link" onclick=" openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImg(pokeImg['sprites'])}"></a>`;
-            evolutionShinyShow.innerHTML += `<img class="evoball" src="./icons/evoball.png"><a class="link" onclick=" openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImgShiny(pokeImg['sprites'])}"></a>`;
-        }
-        for (let f = 0; f < evolution['chain']['evolves_to'][e]['evolves_to'].length; f++) {
-
-            if (evolution['chain']['evolves_to'][e]['evolves_to'].length > 0) {
-                let evoId = evolution['chain']['evolves_to'][e]['evolves_to'][f]['species']['url'];
-                let splitId = evoId.split('/');
-                let evoIdSearch = splitId[6];
-                let respImg = await fetch(url + evolution['chain']['evolves_to'][e]['evolves_to'][f]['species']['name']);
-                let pokeImg = await respImg.json()
-                evolutionShow.innerHTML += `<img class="evoball" src="./icons/evoball.png"><a class="link" onclick=" openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImg(pokeImg['sprites'])}"></a>`;
-                evolutionShinyShow.innerHTML += `<img class="evoball" src="./icons/evoball.png"><a class="link" onclick=" openCard(${evoIdSearch})"><img class="evoPoke" src="${await loadImgShiny(pokeImg['sprites'])}"></a>`;
-            }
-        }
-    }
+    pokeCardTwoTypeshow(twoAnable);
+    pokeCardEvo(id);
     loadPokemonColor('pokeCard', pokeData['types'][0]['type']['name']);
 }
 
-function closeCard() {
-    let pokecard = document.getElementById('pokeCard');
-    pokecard.style.transform = 'translateY(-2000px)';
-    pokecard.innerHTML = '';
-    document.body.style.overflow = 'unset';
-}
-
-
-function precentCalc() {
-    let procentSVG = (procent + calcProcent) / 100;
-    let circleTimeCalc = time / 1000;
-    document.getElementById('circle').innerHTML = circle(procentSVG, circleTimeCalc);
-    document.getElementById('text').innerHTML = `${Math.round(procentSVG * 100)}%`;
-    if (Math.round(procentSVG * 100) == 100) {
-
-        document.getElementById('loadingCircle').style.display = 'none';
-        procent = 0;
-        calcProcent = 0;
+async function pokeCardEvo(id){
+    let evolutionUrl = await loadJsonSpecies(id);
+    let evolution = await loadJsonEvo(evolutionUrl['evolution_chain']['url']);
+    let pokeImg = await loadJsonAll(evolution['chain']['species']['name']);
+    let evolutionShow = document.getElementById('evolutionShow');
+    let evolutionShinyShow = document.getElementById('evolutionShinyShow');
+    loadFirstEvo(evolution, pokeImg, evolutionShow, evolutionShinyShow);
+    for (let e = 0; e < evolution['chain']['evolves_to'].length; e++) {
+        loadSecondEvo(evolution, evolutionShow, evolutionShinyShow, e);
+        for (let f = 0; f < evolution['chain']['evolves_to'][e]['evolves_to'].length; f++) {
+            loadLastEvo(evolution, evolutionShow, evolutionShinyShow, e, f);
+        }
     }
 }
 
 function dataPokemon(site, id) {
+    let loadCard = document.getElementById('loadingPokeCard');
     if (site == 'basic') {
-        dataDb('basic', id);
+        dataDb('basic', id, loadCard);
+        loadCard.style.display = 'flex';
     } else if (site == 'stats') {
-        dataDb('stats', id);
+        dataDb('stats', id, loadCard);
+        loadCard.style.display = 'flex';
     } else if (site == 'moves') {
-        dataDb('moves', id);
+        dataDb('moves', id, loadCard);
+        loadCard.style.display = 'flex';
     }
 }
 
-async function dataDb(data, id) {
-    let resp = await fetch(url + id);
-    let pokeData = await resp.json();
+async function dataDb(data, id, loadCard) {
+    let pokeData = await loadJsonAll(id);
+    let evolutionUrl = await loadJsonSpecies(id);
 
-    let respEvo = await fetch(urlSpecies + id);
-    let evolutionUrl = await respEvo.json();
-
-    if (data == 'basic') dataBasic(pokeData, evolutionUrl);
-    if (data == 'stats') dataStats(pokeData);
-    if (data == 'moves') dataMoves(pokeData);
+    if (data == 'basic') dataBasic(pokeData, evolutionUrl, loadCard);
+    if (data == 'stats') dataStats(pokeData, loadCard);
+    if (data == 'moves') dataMoves(pokeData, loadCard);
 }
-//Auslagern
-function dataBasic(pokeData, evolutionUrl) {
+
+function dataBasic(pokeData, evolutionUrl, loadCard) {
+    let dataPokemon = document.getElementById('dataPokemon');
+    dataPokemon.innerHTML = '';
     setNumber = 0;
     for (i = 0; i < evolutionUrl['flavor_text_entries'].length; i++) {
         if (evolutionUrl['flavor_text_entries'][i]['language']['name'] == readLang()) setNumber = i;
@@ -227,17 +133,15 @@ function dataBasic(pokeData, evolutionUrl) {
         if (evolutionUrl['genera'][g]['language']['name'] == readLang()) setGeneraNumber = g;
     }
     let evoGenera = evolutionUrl['genera'][setGeneraNumber]['genus'];
-    let dataPokemon = document.getElementById('dataPokemon');
-    dataPokemon.innerHTML = '';
     dataPokemon.innerHTML = loadBasicTemplate(evoText, evoGenera, pokeData);
+    loadCard.style.display = 'none';
 }
-//Auslagern
-async function dataStats(pokeData) {
+
+async function dataStats(pokeData, loadCard) {
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['stats'].length; i++) {
-        let statsResp = await fetch(pokeData['stats'][i]['stat']['url']);
-        let statLang = await statsResp.json();
+        let statLang = await loadJsonEvo(pokeData['stats'][i]['stat']['url']);
         for (s = 0; s < statLang['names'].length; s++) {
             if (statLang['names'][s]['language']['name'] == readLang()) {
                 statLabels.push(statLang['names'][s]['name']);
@@ -245,62 +149,20 @@ async function dataStats(pokeData) {
             }
         }
     }
-    loadChart();
+    loadStat();
+    loadCard.style.display = 'none';
 }
 
-function loadChart() {
-    document.getElementById('dataPokemon').innerHTML = ``;
-    document.getElementById('dataPokemon').innerHTML = `<canvas id="statChart"></canvas>`;
-    const ctx = document.getElementById('statChart');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: statLabels,
-            datasets: [{
-                label: '# of Votes',
-                data: statData,
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(75, 192, 192)',
-                    'rgb(255, 205, 86)',
-                    'rgb(201, 203, 207)',
-                    'rgb(54, 162, 235)',
-                    'rgb(0, 126, 0)'
-                ]
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-    statLabels = [];
-    statData = [];
-}
-//Auslagern
-async function dataMoves(pokeData) {
+async function dataMoves(pokeData, loadCard) {
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['moves'].length; i++) {
-        let moveResp = await fetch(pokeData['moves'][i]['move']['url']);
-        let moveLang = await moveResp.json();
+        let moveLang = await loadJsonEvo(pokeData['moves'][i]['move']['url']);
         for (m = 0; m < moveLang['names'].length; m++) {
             if (moveLang['names'][m]['language']['name'] == readLang()) {
-                dataPokemon.innerHTML += `<div class="dataMoves" onmouse id="${moveLang['names'][m]['name']}">${moveLang['names'][m]['name']}</div>`;
-                for (t = 0; t < moveLang['flavor_text_entries'].length; t++) {
-                    if (moveLang['flavor_text_entries'][t]['language']['name'] == readLang()) {
-                        document.getElementById(`${moveLang['names'][m]['name']}`).title = moveLang['flavor_text_entries'][t]['flavor_text'];
-                    }
-                }
+                dataPokemon.innerHTML += `<div class="dataMoves" id="${moveLang['names'][m]['name']}">${moveLang['names'][m]['name']}</div>`;
             }
         }
     }
-}
-
-function notClose(event) {
-    event.stopPropagation();
+    loadCard.style.display = 'none';
 }

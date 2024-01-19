@@ -41,14 +41,14 @@ async function loadPokemonNames() {
     loadPokemonColor(pokemonID['id'], pokemonID['types'][0]['type']['name']);
 }
 
-async function loadTypeTwo(type){
+async function loadTypeTwo(type) {
     if (pokemonID['types'].length === 2) {
-        if(type == 'anable'){
+        if (type == 'anable') {
             return 'yes';
-        }else if(type == 'type'){
+        } else if (type == 'type') {
             return await typeLoad(pokemonID['types'][1]['type']['name']);
         }
-        
+
     }
 }
 
@@ -82,7 +82,7 @@ async function openCard(id) {
     loadPokemonColor('pokeCard', pokeData['types'][0]['type']['name']);
 }
 
-async function pokeCardEvo(id){
+async function pokeCardEvo(id) {
     let evolutionUrl = await loadJsonSpecies(id);
     let evolution = await loadJsonEvo(evolutionUrl['evolution_chain']['url']);
     let pokeImg = await loadJsonAll(evolution['chain']['species']['name']);
@@ -103,11 +103,11 @@ function dataPokemon(site, id) {
         dataDb('basic', id, loadCard);
         loadCard.style.display = 'flex';
     } else if (site == 'stats') {
+        loadTemplate();
         dataDb('stats', id, loadCard);
-        loadCard.style.display = 'flex';
     } else if (site == 'moves') {
+        loadTemplate();
         dataDb('moves', id, loadCard);
-        loadCard.style.display = 'flex';
     }
 }
 
@@ -137,7 +137,8 @@ function dataBasic(pokeData, evolutionUrl, loadCard) {
     loadCard.style.display = 'none';
 }
 
-async function dataStats(pokeData, loadCard) {
+async function dataStats(pokeData) {
+    calcProcent = 100 / pokeData['stats'].length;
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['stats'].length; i++) {
@@ -146,14 +147,17 @@ async function dataStats(pokeData, loadCard) {
             if (statLang['names'][s]['language']['name'] == readLang()) {
                 statLabels.push(statLang['names'][s]['name']);
                 statData.push(pokeData['stats'][i]['base_stat']);
+                procentCalc = procent + calcProcent;
+                procent = Math.round(((procentCalc + Number.EPSILON) * 100) /100);
+                precentCalc();
             }
         }
     }
     loadStat();
-    loadCard.style.display = 'none';
 }
 
-async function dataMoves(pokeData, loadCard) {
+async function dataMoves(pokeData) {
+    calcProcent = 100 / pokeData['moves'].length;
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['moves'].length; i++) {
@@ -161,8 +165,10 @@ async function dataMoves(pokeData, loadCard) {
         for (m = 0; m < moveLang['names'].length; m++) {
             if (moveLang['names'][m]['language']['name'] == readLang()) {
                 dataPokemon.innerHTML += `<div class="dataMoves" id="${moveLang['names'][m]['name']}">${moveLang['names'][m]['name']}</div>`;
+                procentCalc = procent + calcProcent;
+                procent = Math.round(((procentCalc + Number.EPSILON) * 100) /100);
+                precentCalc();
             }
         }
     }
-    loadCard.style.display = 'none';
 }

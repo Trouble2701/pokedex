@@ -49,6 +49,8 @@ function loadSpeech(loadLimit){
             return 'Pokemonsuche (ID or Name)';
         }else if(loadLimit == 'searchTitle'){
             return 'Pokemonsuche (ID or Name (Englische Namen))';
+        }else if(loadLimit == 'disable'){
+            return 'Suche lädt';
         }else{
             return `Nächsten ${loadLimit} Pokemon Laden`;
         }
@@ -60,6 +62,8 @@ function loadSpeech(loadLimit){
             return 'Search Pokemon (ID or Name)';
         }else if(loadLimit == 'searchTitle'){
             return 'Search Pokemon (ID or Name)';
+        }else if(loadLimit == 'disable'){
+            return 'Load Serching';
         }else{
             return `Load Next ${loadLimit} Pokemon`;
         }

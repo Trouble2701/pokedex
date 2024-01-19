@@ -2,66 +2,69 @@ async function filter() {
     let search = document.getElementById('searchHeader').value.toLowerCase();
     let content = document.getElementById('content');
     document.getElementById('loadNext').style.display = 'none';
-    content.innerHTML = '';
     if (search.length >= 1 && search != '') {
         if (!isNaN(search)) {
-            searchById(search);
+            content.innerHTML = '';
+            await searchById(search, 'id');
 
         } else {
-            searchByName(search);
+            content.innerHTML = '';
+            await searchById(search, 'name');
         }
-        load = next;
     } else {
+        pokemonID = [];
         content.innerHTML = '';
         offset = `?offset=0&limit=${load}`;
         document.getElementById('loadNext').style.display = 'unset';
-        searchId = saveId;
-        pokemonID = saveId;
+        searchNames = [];
         await loadPokemon();
     }
 }
 
-async function searchById(search) {
-    for (i = 0; i < searchId.length; i++) {
-        searchPokemonName = searchId[i];
-        if (searchPokemonName.toString().includes(+search)) {
-            if (!searchPokemonName.toString().indexOf(search)) {
-                let resp = await fetch(url + searchPokemonName);
-                pokemonID = await resp.json();
-                if (pokemonID['id'] == +search) {
-                    await loadPokemonNames();
-                }
-            }
+async function searchById(search, attr) {
+    content.innerHTML = '';
+    for (let i = 0; i < searchNames.length; i++) {
+        let attrShow = await attrReturn(i, attr);
+        console.log(attrShow);
+        let idSearch = attrShow;
+        if (await idSearch.includes(search)) {
+            searchPoke = [];
+            searchPoke.push(searchNames[i]);
+            for (let x = 0; x < searchPoke.length; x++){
+                pokemonID = [];
+                pokemonID = await searchPoke[x];
+                await loadPokemonNames();
+            }            
         }
+    }
+    pokemonID = [];
+}
+
+async function attrReturn(i, attr){
+    if(attr == 'id'){
+        return await splitUrl(searchNames[i]['species']['url']);
+    }else if(attr == 'name'){
+        return await searchNames[i]['name'];
     }
 }
 
-async function searchByName(search) {
-    for (i = 0; i < searchNames['results'].length; i++) {
-        searchPokemonName = searchNames['results'][i]['name'];
-        if (searchPokemonName.toLowerCase().includes(search)) {
-            if (!searchPokemonName.indexOf(search)) {
-                let resp = await fetch(url + searchPokemonName);
-                pokemonID = await resp.json();
-                if (pokemonID['name'] == search) {
-                    await loadPokemonNames();
-                }
-            }
-        }
-    }
+async function splitUrl(url){
+    let searching = url;
+    let splitId = searching.split('/');
+    return await splitId[6];
 }
 
 async function loadSearch() {
-    let response = await fetch(url + '?offset=0&limit=' + maxLimit);
-    searchNames = await response.json();
-    for (let i = 0; i < searchNames['results'].length; i++) {
-        let id = searchNames['results'][i]['url'];
-        let splitId = id.split('/');
-        let idSearch = splitId[6];
-        if (saveId.indexOf(idSearch) === -1) {
-            saveId.push(+idSearch);
+    let searchBar = document.getElementById('searchHeader');
+    searchBar.disabled = true;
+    searchBar.placeholder = loadSpeech('disable');
+    let searching = await loadJsonAll(searchOffset);
+    for(let i = 0; i < searching['results'].length; i++){
+        let searchingJson = await loadJsonAll(searching['results'][i]['name']);
+        searchNames.push(searchingJson);
+        if(i == searching['results'].length-1){
+            searchBar.disabled = false;
+            searchBar.placeholder = loadSpeech('searchBar');
         }
     }
-    searchId = saveId;
-    saveId = [];
 }

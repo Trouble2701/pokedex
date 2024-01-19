@@ -40,12 +40,17 @@ function precentCalc() {
     let procentSVG = (procent + calcProcent) / 100;
     let circleTimeCalc = time / 1000;
     document.getElementById('circle').innerHTML = circle(procentSVG, circleTimeCalc);
-    document.getElementById('text').innerHTML = `${Math.round(procentSVG * 100)}%`;
-    if (Math.round(procentSVG * 100) >= 100) {
-
-        document.getElementById('loadingCircle').style.display = 'none';
-        procent = 0;
-        calcProcent = 0;
+    let calcPro = Math.round((procentSVG + Number.EPSILON) * 100);
+    if(Math.round((procentSVG + Number.EPSILON) * 100) >= 100){
+        calcPro = '100';
+    }
+    document.getElementById('text').innerHTML = `${calcPro}%`;
+    if (Math.round((procentSVG + Number.EPSILON) * 100) >= 100) {
+        setTimeout(() => {
+            document.getElementById('loadingCircle').style.display = 'none';
+            procent = 0;
+            calcProcent = 0;    
+        }, 200);
     }
 }
 

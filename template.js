@@ -191,7 +191,7 @@ function loadStat() {
         data: {
             labels: statLabels,
             datasets: [{
-                label: '# of Votes',
+                label: 'Stats',
                 data: statData,
                 backgroundColor: [
                     'rgb(255, 99, 132)',

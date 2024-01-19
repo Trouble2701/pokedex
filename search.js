@@ -55,6 +55,7 @@ async function splitUrl(url){
 }
 
 async function loadSearch() {
+    searchNames = [];
     let searchBar = document.getElementById('searchHeader');
     searchBar.disabled = true;
     searchBar.placeholder = loadSpeech('disable');

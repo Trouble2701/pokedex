@@ -1,6 +1,7 @@
 async function loadPokemon() {
     loadTranslate();
     calcProcent = 100 / load;
+    loadAll = load;
     currentPokemon = await loadJsonAll(offset);
     loadNames();
     loadSearch();
@@ -8,8 +9,10 @@ async function loadPokemon() {
 }
 
 async function loadNames() {
+    loadCount++;
     for (let i = 0; i < load; i++) {
         procent = procent + calcProcent;
+        loadCount++;
         pokemonID = await loadJsonAll(currentPokemon['results'][i]['name']);
         await loadPokemonNames();
         loading(i);
@@ -139,6 +142,7 @@ function dataBasic(pokeData, evolutionUrl, loadCard) {
 
 async function dataStats(pokeData) {
     calcProcent = 100/pokeData['stats'].length;
+    loadAll = pokeData['stats'].length;
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['stats'].length; i++) {
@@ -148,6 +152,7 @@ async function dataStats(pokeData) {
                 statLabels.push(statLang['names'][s]['name']);
                 statData.push(pokeData['stats'][i]['base_stat']);
                 procent = procent + calcProcent;
+                loadCount++;
                 precentCalc();
             }
         }
@@ -157,7 +162,8 @@ async function dataStats(pokeData) {
 
 async function dataMoves(pokeData) {
     calcProcent = 100/pokeData['moves'].length;
-    procent = await procent + calcProcent;
+    procent = procent + calcProcent;
+    loadAll = pokeData['moves'].length
     let dataPokemon = document.getElementById('dataPokemon');
     dataPokemon.innerHTML = '';
     for (i = 0; i < pokeData['moves'].length; i++) {
@@ -167,7 +173,8 @@ async function dataMoves(pokeData) {
                 dataPokemon.innerHTML += `<div class="dataMoves" id="${moveLang['names'][m]['name']}">${moveLang['names'][m]['name']}</div>`;
             }
         }
-        procent = await procent + calcProcent;
+        procent = procent + calcProcent;
+        loadCount++;
         precentCalc();
     }
 }

@@ -44,12 +44,14 @@ function precentCalc() {
     if(Math.round((procentSVG + Number.EPSILON) * 100) >= 100){
         calcPro = '100';
     }
-    document.getElementById('text').innerHTML = `${calcPro}%`;
+    document.getElementById('text').innerHTML = `<tspan x="100" dy="-1em">${calcPro}%</tspan><tspan x="100" dy="2em">${loadCount} von ${loadAll}</tspan>`;
     if (Math.round((procentSVG + Number.EPSILON) * 100) >= 100) {
         setTimeout(() => {
             document.getElementById('loadingCircle').style.display = 'none';
             procent = 0;
-            calcProcent = 0;    
+            calcProcent = 0; 
+            loadCount = 0;
+            loadAll = 0;   
         }, 200);
     }
 }

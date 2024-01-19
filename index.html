@@ -19,7 +19,7 @@
 
 <body onload="selectLanguage(), loadPokemon()">
     <div onclick="closeCard()">
-        <div class="loadingCircle" id="loadingCircle"><svg id="circle"></svg></div>
+        <div class="loadingCircle" id="loadingCircle" onclick="notClose(event)"><svg id="circle"></svg></div>
         <div class="pokeCard" id="pokeCard" onclick="notClose(event)"></div>
         <header id="header">
             <div class="pokedexHeader"><img src="./img/pokeballtransperant.png" class="pokedexLogo"><img

@@ -25,17 +25,26 @@ async function searchById(search, attr) {
     content.innerHTML = '';
     for (let i = 0; i < searchNames.length; i++) {
         let attrShow = await attrReturn(i, attr);
-        console.log(attrShow);
         let idSearch = attrShow;
         if (await idSearch.includes(search)) {
             searchPoke = [];
-            searchPoke.push(searchNames[i]);
+            searchPoke.push(searchNames[i]); 
             for (let x = 0; x < searchPoke.length; x++){
                 pokemonID = [];
                 pokemonID = await searchPoke[x];
                 await loadPokemonNames();
-            }            
+            }
+            pokemonID = [];           
         }
+    }
+    //await loadSearching();
+}
+
+async function loadSearching(){
+    for (let x = 0; x < searchPoke.length; x++){
+        pokemonID = [];
+        pokemonID = await searchPoke[x];
+        await loadPokemonNames();
     }
     pokemonID = [];
 }

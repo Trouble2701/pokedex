@@ -17,6 +17,8 @@ let calcProcent = 0;
 let time = 3000;
 let statLabels = [];
 let statData = [];
+let loadCount = 0;
+let loadAll = 0;
 
 async function loadJsonAll(link){
     let response = await fetch(url + link);

@@ -9,7 +9,6 @@ let maxLimit = 217;
 let searchOffset = `?offset=0&limit=${maxLimit}`;
 let language = 'de';
 let searchNames=[];
-let searchPoke = [];
 let matchingPokemon = [];
 let searchTimeout;
 let currentPokemon;

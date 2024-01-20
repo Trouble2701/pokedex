@@ -64,7 +64,9 @@ function loadSpeech(loadLimit){
         }else if(loadLimit == 'move'){
             return 'Attacken';
         }else if(loadLimit == 'of'){
-            return 'von'
+            return 'von';
+        }else if(loadLimit == 'result'){
+            return 'Keine Treffer';
         }else{
             return `Nächsten ${loadLimit} Pokemon Laden`;
         }
@@ -92,6 +94,8 @@ function loadSpeech(loadLimit){
             return 'Moves';
         }else if(loadLimit == 'of'){
             return 'out of'
+        }else if(loadLimit == 'result'){
+            return 'No Results';
         }else{
             return `Load Next ${loadLimit} Pokemon`;
         }

@@ -52,7 +52,7 @@ async function searching(search, searchOrder) {
             await loadPokemonNames();
         }
     } else {
-        document.getElementById('content').innerHTML = '<h2>Keine Treffer</h2>';
+        document.getElementById('content').innerHTML = `<h2>${loadSpeech('result')}</h2>`;
     }
 }
 

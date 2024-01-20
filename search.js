@@ -1,66 +1,98 @@
-async function filter() {
-    let search = document.getElementById('searchHeader').value.toLowerCase();
-    let content = document.getElementById('content');
-    document.getElementById('loadNext').style.display = 'none';
-    if (search.length >= 1 && search != '') {
-        if (!isNaN(search)) {
-            content.innerHTML = '';
-            await searchById(search, 'id');
+let debouncedFilter = debounce(filter, 500);
 
+document.addEventListener('DOMContentLoaded', function () {
+    let searchBar = document.getElementById('searchHeader');
+
+    if (searchBar) {
+        searchBar.addEventListener('input', debouncedFilter);
+    } else {
+        console.error('searchHeader Element not found');
+    }
+});
+
+function debounce(func, delay) {
+    let timeoutId;
+    return function () {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, arguments), delay);
+    };
+}
+
+async function filter() {
+    let searchBar = document.getElementById('searchHeader');
+    let search = searchBar.value.toLowerCase();
+    document.getElementById('loadNext').style.display = 'none';
+    clearTimeout(searchTimeout);
+    searchBar.disabled = true;
+    searchTimeout = setTimeout(async () => {
+        if (search.length >= 1 && search != '') {
+            document.getElementById('content').innerHTML = '';
+            let searchOrder = 'name';
+            if (!isNaN(search)) {
+                searchOrder = 'id';
+            }
+            await searching(search, searchOrder);
+            searchBar.disabled = false;
+            searchBar.focus();
         } else {
-            content.innerHTML = '';
-            await searchById(search, 'name');
+            await goBack();
+        }
+    }, 300);
+}
+
+async function searching(search, searchOrder) {
+    let matchingPokemon = await findMatchingPokemon(search, searchOrder);
+    if (matchingPokemon.length > 0) {
+        for (let i = 0; i < matchingPokemon.length; i++) {
+            pokemonID = matchingPokemon[i];
+            procent = procent + calcProcent;
+            loadCount++;
+            precentCalc();
+            await loadPokemonNames();
         }
     } else {
-        pokemonID = [];
-        content.innerHTML = '';
-        offset = `?offset=0&limit=${load}`;
-        document.getElementById('loadNext').style.display = 'unset';
-        searchNames = [];
-        await loadPokemon();
+        document.getElementById('content').innerHTML = '<h2>Keine Treffer</h2>';
     }
 }
 
-async function searchById(search, attr) {
-    content.innerHTML = '';
+async function findMatchingPokemon(search, searchOrder) {
+    matchingPokemon = [];
     for (let i = 0; i < searchNames.length; i++) {
-        let attrShow = await attrReturn(i, attr);
-        let idSearch = attrShow;
-        if (await idSearch.includes(search)) {
-            searchPoke = [];
-            searchPoke.push(searchNames[i]); 
-            for (let x = 0; x < searchPoke.length; x++){
-                pokemonID = [];
-                pokemonID = await searchPoke[x];
-                await loadPokemonNames();
+        let nameToShow = await attrReturn(i, searchOrder);
+        if (typeof nameToShow === 'string') {
+            let idSearch = nameToShow.toLowerCase();
+            if (idSearch.includes(search.toLowerCase())) {
+                matchingPokemon.push(searchNames[i]);
+                calcProcent = 100 / matchingPokemon.length;
+                loadAll = matchingPokemon.length;
+                loadTemplate();
             }
-            pokemonID = [];           
         }
     }
-    //await loadSearching();
+    return matchingPokemon;
 }
 
-async function loadSearching(){
-    for (let x = 0; x < searchPoke.length; x++){
-        pokemonID = [];
-        pokemonID = await searchPoke[x];
-        await loadPokemonNames();
-    }
-    pokemonID = [];
-}
-
-async function attrReturn(i, attr){
-    if(attr == 'id'){
+async function attrReturn(i, attr) {
+    if (attr == 'id') {
         return await splitUrl(searchNames[i]['species']['url']);
-    }else if(attr == 'name'){
+    } else if (attr == 'name') {
         return await searchNames[i]['name'];
     }
 }
 
-async function splitUrl(url){
+async function splitUrl(url) {
     let searching = url;
     let splitId = searching.split('/');
     return await splitId[6];
+}
+
+async function goBack() {
+    pokemonID = [];
+    content.innerHTML = '';
+    offset = `?offset=0&limit=${load}`;
+    document.getElementById('loadNext').style.display = 'unset';
+    searchNames = [];
+    await loadPokemon();
 }
 
 async function loadSearch() {
@@ -69,10 +101,10 @@ async function loadSearch() {
     searchBar.disabled = true;
     searchBar.placeholder = loadSpeech('disable');
     let searching = await loadJsonAll(searchOffset);
-    for(let i = 0; i < searching['results'].length; i++){
+    for (let i = 0; i < searching['results'].length; i++) {
         let searchingJson = await loadJsonAll(searching['results'][i]['name']);
         searchNames.push(searchingJson);
-        if(i == searching['results'].length-1){
+        if (i == searching['results'].length - 1) {
             searchBar.disabled = false;
             searchBar.placeholder = loadSpeech('searchBar');
         }

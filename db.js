@@ -10,6 +10,8 @@ let searchOffset = `?offset=0&limit=${maxLimit}`;
 let language = 'de';
 let searchNames=[];
 let searchPoke = [];
+let matchingPokemon = [];
+let searchTimeout;
 let currentPokemon;
 let pokemonID;
 let procent = 0;

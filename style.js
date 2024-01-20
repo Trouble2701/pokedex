@@ -214,6 +214,19 @@ function notClose(event) {
     event.stopPropagation();
 }
 
+function loadSize () {
+    let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (width <= 780) {
+        document.getElementById('searchDiv').classList.remove('pokedexHeader');
+        document.getElementById('searchDiv').classList.remove('search');
+        document.getElementById('searchDiv').classList.add('searchScreen');
+    } else {
+        document.getElementById('searchDiv').classList.remove('searchScreen');
+        document.getElementById('searchDiv').classList.add('pokedexHeader');
+        document.getElementById('searchDiv').classList.add('search');
+    }
+};
+
 window.addEventListener("resize", function () {
     let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (width <= 780) {

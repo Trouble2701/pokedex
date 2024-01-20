@@ -1,4 +1,5 @@
 async function loadPokemon() {
+    loadSize ();
     loadTranslate();
     calcProcent = 100 / load;
     loadAll = load;

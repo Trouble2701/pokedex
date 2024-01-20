@@ -44,9 +44,9 @@ async function pokeCardTemplate(id, type, twoType, sprites, moveLength) {
         <div id="pokemonInnerCard">
             <div id="loadingPokeCard"><img src="./icons/loading.gif"></div>
             <div id="cardLink">
-                <a class="link" onclick="dataPokemon('basic', ${id})">Basic</a>
-                <a class="link" onclick="dataPokemon('stats', ${id})">Stats</a>
-                <a class="link" onclick="dataPokemon('moves', ${id})">${moveLength} Moves</a>
+                <a class="link" onclick="dataPokemon('basic', ${id})">${loadSpeech('basic')}</a>
+                <a class="link" onclick="dataPokemon('stats', ${id})">${loadSpeech('stat')}</a>
+                <a class="link" onclick="dataPokemon('moves', ${id})">${moveLength} ${loadSpeech('move')}</a>
             </div>
             <div class="dataPokemon" id="dataPokemon"></div>
             <div class="evolutions">
@@ -178,7 +178,7 @@ function loadBasicTemplate(evoText, evoGenera, pokeData) {
     let weight = `${pokeData['weight'] / 10}kg`;
     if (pokeData['weight'] < '1000') weight = `${pokeData['weight'] / 10}kg`;
     if (weight < '1') weight = `${pokeData['weight']}g`;
-    return /*html*/`${evoText}<br><br>Gattung: ${evoGenera}<br>Größe: ${height}<br>Gewicht: ${weight}`;
+    return /*html*/`${evoText}<br><br>${loadSpeech('genus')}: ${evoGenera}<br>${loadSpeech('height')}: ${height}<br>${loadSpeech('weight')}: ${weight}`;
 };
 
 function loadStat() {

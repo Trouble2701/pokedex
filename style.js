@@ -48,7 +48,7 @@ function precentCalc() {
     if (Math.round((procentSVG + Number.EPSILON) * 100) >= 100) {
         calcPro = '100';
     }
-    document.getElementById('text').innerHTML = `<tspan x="100" dy="-1em">${calcPro}%</tspan><tspan x="100" dy="2em">${loadCount} von ${loadAll}</tspan>`;
+    document.getElementById('text').innerHTML = `<tspan x="100" dy="-1.2em">${calcPro}%</tspan><tspan x="100" dy="1.8em">${loadCount} ${loadSpeech('of')} ${loadAll}</tspan>`;
     if (Math.round((procentSVG + Number.EPSILON) * 100) >= 100) {
         setTimeout(() => {
             document.getElementById('loadingCircle').style.display = 'none';

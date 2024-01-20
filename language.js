@@ -51,6 +51,20 @@ function loadSpeech(loadLimit){
             return 'Pokemonsuche (ID or Name (Englische Namen))';
         }else if(loadLimit == 'disable'){
             return 'Suche lädt';
+        }else if(loadLimit == 'height'){
+            return 'Größe';
+        }else if(loadLimit == 'weight'){
+            return 'Gewicht';
+        }else if(loadLimit == 'genus'){
+            return 'Gattung';
+        }else if(loadLimit == 'basic'){
+            return 'Basis';
+        }else if(loadLimit == 'stat'){
+            return 'Status';
+        }else if(loadLimit == 'move'){
+            return 'Attacken';
+        }else if(loadLimit == 'of'){
+            return 'von'
         }else{
             return `Nächsten ${loadLimit} Pokemon Laden`;
         }
@@ -64,6 +78,20 @@ function loadSpeech(loadLimit){
             return 'Search Pokemon (ID or Name)';
         }else if(loadLimit == 'disable'){
             return 'Load Serching';
+        }else if(loadLimit == 'height'){
+            return 'Height';
+        }else if(loadLimit == 'weight'){
+            return 'Weight';
+        }else if(loadLimit == 'genus'){
+            return 'Genus';
+        }else if(loadLimit == 'basic'){
+            return 'Basic';
+        }else if(loadLimit == 'stat'){
+            return 'Stats';
+        }else if(loadLimit == 'move'){
+            return 'Moves';
+        }else if(loadLimit == 'of'){
+            return 'out of'
         }else{
             return `Load Next ${loadLimit} Pokemon`;
         }

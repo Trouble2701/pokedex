@@ -35,6 +35,7 @@ async function filter() {
             searchBar.disabled = false;
             searchBar.focus();
         } else {
+            searchPokedexclose();
             await goBack();
         }
     }, 300);

@@ -1,15 +1,19 @@
 function searchPokedex() {
     document.getElementById('searchDiv').style.transform = 'translateY(0px)';
     document.getElementById('searchIcon').setAttribute("onclick", "searchPokedexclose()");
+    document.getElementById('content').style.marginTop = '120px';
 }
 
 function searchPokedexclose() {
-    document.getElementById('searchDiv').style.transform = 'translateY(-100px)';
-    document.getElementById('searchIcon').setAttribute("onclick", "searchPokedex()");
+    if (document.getElementById('searchDiv').classList == 'searchScreen') {
+        document.getElementById('searchDiv').style.transform = 'translateY(-100px)';
+        document.getElementById('searchIcon').setAttribute("onclick", "searchPokedex()");
+        document.getElementById('content').style.marginTop = '85px';
+    }
 }
 
 function loadid(id) {
-    if(id!=undefined){
+    if (id != undefined) {
         if (id.toString().length == 1) {
             return `#00${id}`;
         } else if (id.toString().length == 2) {
@@ -20,20 +24,20 @@ function loadid(id) {
     }
 }
 
-function loading(i){
+function loading(i) {
     let loadButton = document.getElementById('loadNext');
-        if(i < load-1){
-            loadButton.innerHTML = '';
-            loadButton.innerHTML = loadSpeech('load');
-            loadButton.disabled = true;
-            document.body.style.overflow = 'hidden';
-            precentCalc();
-        }else if(i == load-1){
-            loadButton.innerHTML = '';
-            loadButton.innerHTML = loadSpeech(load);
-            loadButton.disabled = false;
-            document.body.style.overflow = '';
-        }
+    if (i < load - 1) {
+        loadButton.innerHTML = '';
+        loadButton.innerHTML = loadSpeech('load');
+        loadButton.disabled = true;
+        document.body.style.overflow = 'hidden';
+        precentCalc();
+    } else if (i == load - 1) {
+        loadButton.innerHTML = '';
+        loadButton.innerHTML = loadSpeech(load);
+        loadButton.disabled = false;
+        document.body.style.overflow = '';
+    }
 }
 
 function precentCalc() {
@@ -41,7 +45,7 @@ function precentCalc() {
     let circleTimeCalc = time / 1000;
     document.getElementById('circle').innerHTML = circle(procentSVG, circleTimeCalc);
     let calcPro = Math.round((procentSVG + Number.EPSILON) * 100);
-    if(Math.round((procentSVG + Number.EPSILON) * 100) >= 100){
+    if (Math.round((procentSVG + Number.EPSILON) * 100) >= 100) {
         calcPro = '100';
     }
     document.getElementById('text').innerHTML = `<tspan x="100" dy="-1em">${calcPro}%</tspan><tspan x="100" dy="2em">${loadCount} von ${loadAll}</tspan>`;
@@ -49,16 +53,16 @@ function precentCalc() {
         setTimeout(() => {
             document.getElementById('loadingCircle').style.display = 'none';
             procent = 0;
-            calcProcent = 0; 
+            calcProcent = 0;
             loadCount = 0;
-            loadAll = 0;   
+            loadAll = 0;
         }, 200);
     }
 }
 
 function loadPokemonColor(id, type) {
     let transperent = ', 0.8';
-    if(id == 'pokeCard'){
+    if (id == 'pokeCard') {
         transperent = '';
     }
     if (type == 'grass' || type == 'bug') {
@@ -152,21 +156,21 @@ function typeTwoLoading(anableLoad) {
     }
 }
 
-async function pokeCardTwoTypes(pokedata){
+async function pokeCardTwoTypes(pokedata) {
     if (pokedata['types'].length === 2) {
         return await typeLoad(pokedata['types'][1]['type']['name']);
     }
 }
 
-function pokeCardTwoTypesAnable(pokeData){
+function pokeCardTwoTypesAnable(pokeData) {
     if (pokeData['types'].length === 2) {
         return 'yes';
-    }else{
+    } else {
         return 'no';
     }
 }
 
-function pokeCardTwoTypeshow(twoAnable){
+function pokeCardTwoTypeshow(twoAnable) {
     let twoType = document.getElementById('twoType');
     twoType.style.display = 'none';
     if (twoAnable == 'yes') {
@@ -198,7 +202,7 @@ function loadPokeCardEvo(shiny) {
     }
 }
 
-function openPokeCard(pokecard){
+function openPokeCard(pokecard) {
     document.body.style.overflow = 'hidden';
     pokecard.style.transform = 'translateY(0)';
 }
@@ -214,7 +218,7 @@ function notClose(event) {
     event.stopPropagation();
 }
 
-function loadSize () {
+function loadSize() {
     let width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (width <= 780) {
         document.getElementById('searchDiv').classList.remove('pokedexHeader');
